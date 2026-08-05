@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matric Dance?</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <!-- Floating Background Particles Container -->
+    <div id="particles-container"></div>
+
+    <!-- Initial Landing Screen -->
+    <div id="landing-screen" class="screen">
+        <button id="start-btn" class="glow-btn">date?</button>
+    </div>
+
+    <!-- Main Question Screen (Hidden Initially) -->
+    <div id="question-screen" class="screen hidden">
+        <h1 id="question-text"></h1>
+        <div class="btn-group">
+            <button id="yes-btn" class="action-btn">Yes</button>
+            <button id="no-btn" class="action-btn">No</button>
+        </div>
+    </div>
+
+    <!-- Celebration Screen (Hidden Initially) -->
+    <div id="celebration-screen" class="screen hidden">
+        <h1>Let's make it a night to remember! ❤️</h1>
+    </div>
+
+    <!-- Background Audio (Place a song.mp3 file in your project folder) -->
+    <audio id="bg-music" loop>
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
