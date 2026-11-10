@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Direct Chinese Dropshipping Sourcing: Automated Integration &amp; Manual Negotiation Strategies</title>
+
+  <!-- Essential CDN Libraries -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: 'hsl(210, 75%, 95%)',
+              100: 'hsl(210, 75%, 85%)',
+              200: 'hsl(210, 75%, 75%)',
+              300: 'hsl(210, 75%, 65%)',
+              400: 'hsl(210, 75%, 55%)',
+              500: 'hsl(210, 75%, 40%)',
+              600: 'hsl(210, 75%, 35%)',
+              700: 'hsl(210, 75%, 25%)',
+              800: 'hsl(210, 75%, 15%)',
+              900: 'hsl(210, 75%, 10%)'
+            },
+            accent: {
+              50: 'hsl(30, 90%, 95%)',
+              100: 'hsl(30, 90%, 85%)',
+              200: 'hsl(30, 90%, 75%)',
+              300: 'hsl(30, 90%, 65%)',
+              400: 'hsl(30, 90%, 60%)',
+              500: 'hsl(30, 90%, 55%)',
+              600: 'hsl(30, 90%, 50%)',
+              700: 'hsl(30, 90%, 40%)',
+              800: 'hsl(30, 90%, 30%)',
+              900: 'hsl(30, 90%, 20%)'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+
+  <!-- Preline UI Components -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/preline@2.0.3/dist/preline.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/preline@2.0.3/dist/preline.js"></script>
+
+  <!-- Micro-interactions & Custom Styles -->
+  <style>
+    html { scroll-behavior: smooth; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+
+    .btn-interactive {
+      transition: all 0.2s ease-out;
+    }
+    
+    .btn-interactive:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .btn-interactive:active {
+      transform: scale(0.95);
+    }
+
+    .card-interactive {
+      transition: all 0.3s ease-out;
+      border: 1px solid transparent;
+      --border-lightness: 40%;
+    }
+
+    .dark .card-interactive {
+      --border-lightness: 60%;
+    }
+
+    .card-interactive:hover {
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      filter: brightness(0.98);
+    }
+    
+    /* Primary colored cards */
+    .card-interactive[class*="primary"]:hover,
+    .card-interactive[class*="white"]:hover,
+    .card-interactive[class*="gray-"]:hover {
+      border-color: hsl(210, 75%, var(--border-lightness));
+    }
+    
+    /* Accent colored cards */
+    .card-interactive[class*="accent"]:hover {
+      border-color: hsl(30, 90%, var(--border-lightness));
+    }
+  </style>
+
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      document.getElementById('sunIcon').style.display = isDark ? 'block' : 'none';
+      document.getElementById('moonIcon').style.display = isDark ? 'none' : 'block';
+    }
+
+    function initCitationSystem() {
+      let i = 1, map = new Map();
+      document.querySelectorAll('[data-ref]').forEach(el => {
+        if (el.dataset.citationProcessed) return;
+        const raw = (el.getAttribute('data-ref')||'').trim();
+        if (!raw) return;
+
+        const parts = raw.split('|');
+        const url = parts[0].trim();
+        const idx = (parts[1]||'').trim() || map.get(raw) || (map.set(raw, String(i)), String(i++));
+
+        if (!el.textContent || !el.textContent.trim()) { el.dataset.citationProcessed = 'true'; return; }
+
+        const btn = document.createElement('sup'); btn.textContent = String(idx);
+        Object.assign(btn.style, { fontSize:'8px', color:'#fff', cursor:'pointer', top: '1px', fontWeight:'bold', backgroundColor:'#0284c7', borderRadius:'50%', transition:'all .15s', userSelect:'none', minWidth:'19px', height:'19px', marginLeft:'6px', display:'inline-flex', alignItems:'center', justifyContent:'center', boxShadow:'0 1px 3px rgba(0,0,0,.2)', lineHeight:'1'});
+        btn.addEventListener('mouseenter', ()=> Object.assign(btn.style, { backgroundColor:'#0369a1', transform:'scale(1.12)' }));
+        btn.addEventListener('mouseleave', ()=> Object.assign(btn.style, { backgroundColor:'#0284c7', transform:'scale(1)' }));
+        btn.addEventListener('click', e=>{ e.preventDefault(); e.stopPropagation(); window.open(url, '_blank'); });
+
+        el.appendChild(btn); el.dataset.citationProcessed = 'true';
+      });
+    }
+  </script>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
+  <!-- Progress Bar -->
+  <div class="fixed top-0 left-0 h-1 bg-primary-500 dark:bg-primary-400 z-[60] transition-all duration-300 ease-out" id="progressBar"></div>
+
+  <!-- Floating Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur bg-gray-50/90 dark:bg-gray-900/90 border-b border-primary-500/20 dark:border-primary-600/20">
+    <nav class="max-w-7xl mx-auto px-6 py-4">
+      <div class="flex items-center justify-between">
+        <h1 class="text-xl font-bold text-primary-700 dark:text-primary-300">Chinese Dropshipping Sourcing</h1>
+        
+        <div class="flex items-center gap-6">
+          <a href="#home" class="btn-interactive text-sm text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-200 transition-colors">Home</a>
+          <a href="#verification" class="btn-interactive text-sm text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-200 transition-colors">Verification</a>
+          <a href="#automation" class="btn-interactive text-sm text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-200 transition-colors">Automation</a>
+          <a href="#platforms" class="btn-interactive text-sm text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-200 transition-colors">Platforms</a>
+          <a href="#negotiation" class="btn-interactive text-sm text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-200 transition-colors">Negotiation</a>
+          <a href="#inspection" class="btn-interactive text-sm text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-200 transition-colors">Inspection</a>
+          <a href="#conclusion" class="btn-interactive text-sm text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-200 transition-colors">Conclusion</a>
+          
+          <button onclick="toggleDarkMode()" class="btn-interactive p-2 rounded-lg bg-primary-100 dark:bg-primary-800 text-primary-600 dark:text-primary-300 hover:bg-primary-200 dark:hover:bg-primary-700 transition-all">
+            <i data-lucide="sun" id="sunIcon" class="w-5 h-5"></i>
+            <i data-lucide="moon" id="moonIcon" class="w-5 h-5" style="display:none;"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="pt-24 pb-16">
+    <!-- Hero Section -->
+    <section id="home" class="py-20 bg-primary-50/50 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="text-center mb-12">
+          <h2 class="text-4xl md:text-5xl font-bold mb-6 text-primary-700 dark:text-primary-300">
+            Direct Chinese Dropshipping Sourcing
+          </h2>
+          <p class="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Comprehensive strategies for locating and engaging direct Chinese manufacturers and wholesalers for niche-agnostic sourcing, combining automated integration and manual negotiation approaches.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 items-center mt-12">
+          <div class="space-y-6">
+            <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300">Dual-Method Approach</h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed" data-ref="https://www.leelinegroup.com/factory-audit-checklist/|1">
+              The sourcing strategy must address two parallel operational approaches: automated platform integration for e-commerce efficiency and manual relationship-building tactics for custom sourcing and negotiation. This dual-method ensures comprehensive coverage of modern digital sourcing tools alongside traditional procurement relationship management within the Chinese manufacturing ecosystem.
+            </p>
+            
+            <div class="pl-4 pr-3 py-3 border-l-4 border-primary-500 bg-primary-50/40 dark:bg-primary-900/30 rounded-r-lg">
+              <p class="text-sm font-medium text-primary-900 dark:text-primary-100 leading-relaxed" data-ref="https://www.silkwaysourcing.com/blog/verify-china-factory-checklist|2">
+                <i data-lucide="info" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+                Critical finding: A four-tier verification process is recommended for new Chinese suppliers, with Tier 1 (Desk Checks) removing most bad candidates at no cost, followed by Document Checks, On-site Audits, and Pre-shipment Inspections.
+              </p>
+            </div>
+          </div>
+          
+          <img
+            src="https://cdn.qwenlm.ai/62548d3e-637a-4acd-84ea-767cd44c3a52/0d345a41-13bb-4518-a204-0e7b7eb99c6e/1a7ad4c9-788a-406e-9eee-aa141f26bcef.png?key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZV91c2VyX2lkIjoiNjI1NDhkM2UtNjM3YS00YWNkLTg0ZWEtNzY3Y2Q0NGMzYTUyIiwicmVzb3VyY2VfaWQiOiIwZDM0NWE0MS0xM2JiLTQ1MTgtYTIwNC0wZTdiN2ViOTljNmUiLCJyZXNvdXJjZV9jaGF0X2lkIjpudWxsfQ.Yq0j7umlEYGkAdfoNDz-31og-xYXAQadghRbSM3KfN0"
+            alt="Modern Chinese manufacturing facility with automated robotic arms assembling electronic components on a clean production line. In the foreground, a smartphone displays a digital interface showing real-time inventory synchronization with blue data visualization charts on screen. A factory worker in blue uniform operates machinery in the background. The scene is lit with bright LED lighting, showing a contemporary industrial environment with steel gray machinery, white walls, and digital screens displaying production metrics. The image represents the integration of automated technology with traditional manufacturing processes in Chinese factories."
+            class="w-full rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Supplier Verification Section -->
+    <section id="verification" class="py-20 bg-white/80 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-8 text-primary-700 dark:text-primary-300">
+          Supplier Verification Protocols
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+            <div class="flex items-start space-x-4">
+              <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="shield-check" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-3" data-ref="https://www.leelinegroup.com/factory-audit-checklist/|1">Legal Existence Gate</h3>
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  A strict verification gate requires obtaining a supplier's business license with their official Chinese legal name and <span class="mx-1 px-1.5 py-0.5 rounded-md bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-300 font-semibold text-sm">18-digit Unified Social Credit Code</span>. These credentials must be cross-referenced against China's National Enterprise Credit Information Publicity System (GSXT) to uncover hidden shareholder structures, litigation flags, or abnormal statuses.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+            <div class="flex items-start space-x-4">
+              <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="scan" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-accent-700 dark:text-accent-300 mb-3" data-ref="https://chinesecheck.com/blog/spot-fake-suppliers-alibaba|4">15-Signal Scan</h3>
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  Key red flags indicating a fake supplier include zero transaction history despite claiming long seniority, product images found via reverse image search on other platforms, generic machine-translated English descriptions, and a website domain registered within the last <span class="mx-1 px-1.5 py-0.5 rounded-md bg-accent-100 dark:bg-accent-900/30 text-accent-800 dark:text-accent-300 font-semibold text-sm">90 days</span>.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hs-accordion-group space-y-4">
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-verification-1">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="building-2" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">On-Site Match Test Protocol</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-verification-1" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-verification-1">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.leelinegroup.com/factory-audit-checklist/|1">
+                  The "On-Site Match Test" is a physical protocol for supplier sourcing where four elements must align: the framed business license, warehouse signage, employee badges, and the bank beneficiary name. Any inconsistency, such as worker badges reading "Shenzhen Plastics" while the license reads "Global Trading Co," indicates the site is likely a showroom run by an unauthorized broker.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.silkwaysourcing.com/blog/verify-china-factory-checklist|2">
+                  An on-site audit is essential as it cannot be replicated by a video call. During the audit, verify that the company name matches the gate and building, production lines are installed and running, work-in-progress is the correct product type, headcount aligns with output claims, finished goods carry the factory's own labels, and production records exist.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-verification-2">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="circle-check" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Certificate Validation</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-verification-2" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-verification-2">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.leelinegroup.com/factory-audit-checklist/|1">
+                  ISO 9001 certification can be misleading; its validity must be checked against the IAF CertSearch global database for scope and expiry. A factory may hold a certificate for one product type (e.g., basic plastic toys) but use it to manufacture another (e.g., complex electronics), creating massive compliance risk.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.silkwaysourcing.com/blog/verify-china-factory-checklist|2">
+                  To differentiate a factory from a trading company, check the scope of business for manufacturing terms like 生产 (production) or 制造 (manufacture), while trading companies use 销售 (sales), 批发 (wholesale), or 进出口 (import/export).
+                </p>
+                <div class="pl-4 pr-3 py-3 border-l-4 border-amber-500 bg-amber-50/40 dark:bg-amber-900/30 rounded-r-lg">
+                  <p class="text-sm font-medium text-amber-900 dark:text-amber-100 leading-relaxed" data-ref="https://www.silkwaysourcing.com/blog/verify-china-factory-checklist|2">
+                    <i data-lucide="alert-triangle" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+                    Warning: Common mistakes include treating a video call as an audit, not verifying bank account details even if the license is valid, accepting certificates without looking them up on the issuer's register, and believing nameplate capacity without accounting for utilization.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-verification-3">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="search" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Government Database Cross-Reference</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-verification-3" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-verification-3">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://chinesecheck.com/blog/spot-fake-suppliers-alibaba|4">
+                  The National Enterprise Credit Information Publicity System (GSXT), accessible at gsxt.gov.cn, is the single most important source for ground-truth verification. It is the official, government-run database for all legally registered Chinese companies. Cross-referencing supplier information against GSXT is critical to validate their registration date, address, legal representative, and business scope.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://chinesecheck.com/blog/how-to-verify-chinese-supplier|17">
+                  The most reliable way to verify a Chinese supplier is by cross-referencing their business license against official government databases, checking litigation records, confirming tax credit ratings, and conducting a factory audit. Combining multiple checks significantly reduces risk.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Automation Integration Section -->
+    <section id="automation" class="py-20 bg-primary-50/50 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-8 text-primary-700 dark:text-primary-300">
+          Automated Integration Solutions
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 items-start mb-12">
+          <div class="space-y-6">
+            <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300">API Integration Architecture</h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed" data-ref="https://flxpoint.com/blog/dropshipping-api-integrations-explained|9">
+              A dropshipping API is a set of digital endpoints that allows an online store or middleware software to read and write data programmatically. This direct communication channel enables automatic synchronization of product information, stock levels, pricing, and orders between the store and supplier systems, typically using JSON or XML for structured responses.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed" data-ref="https://www.inventorysource.com/supplier-api-integration-guide-for-ecommerce-businesses/|20">
+              The integration architecture must define the source of truth for each data type to prevent conflicts. Common rules include using the supplier system as the source for inventory quantities, keeping the supplier API as the main source for wholesale prices, letting the e-commerce platform control the final retail price, using the order management system for order records, and defining whether the supplier or PIM controls product content fields.
+            </p>
+            
+            <div class="pl-4 pr-3 py-3 border-l-4 border-primary-500 bg-primary-50/40 dark:bg-primary-900/30 rounded-r-lg">
+              <p class="text-sm font-medium text-primary-900 dark:text-primary-100 leading-relaxed" data-ref="https://flxpoint.com/blog/dropshipping-api-integrations-explained|9">
+                <i data-lucide="info" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+                API integrations solve three critical problems at scale: Accuracy by preventing overselling through real-time inventory updates, Speed and scalability by managing hundreds or thousands of products across multiple platforms without manual effort, and Consistency by reducing customer support tickets related to order status and delivery issues.
+              </p>
+            </div>
+          </div>
+
+          <img
+            src="https://cdn.qwenlm.ai/62548d3e-637a-4acd-84ea-767cd44c3a52/0d345a41-13bb-4518-a204-0e7b7eb99c6e/396cf96c-21b0-4fa2-8e3a-fa26674fa774.png?key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZV91c2VyX2lkIjoiNjI1NDhkM2UtNjM3YS00YWNkLTg0ZWEtNzY3Y2Q0NGMzYTUyIiwicmVzb3VyY2VfaWQiOiIwZDM0NWE0MS0xM2JiLTQ1MTgtYTIwNC0wZTdiN2ViOTljNmUiLCJyZXNvdXJjZV9jaGF0X2lkIjpudWxsfQ.Yq0j7umlEYGkAdfoNDz-31og-xYXAQadghRbSM3KfN0"
+            alt="Digital network diagram showing interconnected systems representing automated dropshipping integration. At the center is a modern laptop displaying a Shopify dashboard interface with blue and orange color scheme. Connected to the laptop via glowing blue arrows are three rectangular nodes: a Chinese factory icon showing a manufacturing plant with smokestacks, a warehouse icon with stacked boxes, and a shipping carrier icon with a delivery truck. Data flow lines are represented by blue arrows labeled with text showing 'Product Data', 'Inventory Sync', 'Order Processing', and 'Tracking Updates'. The background is a gradient from light gray to white, with subtle circuit board patterns in the corners. The overall composition illustrates the seamless flow of information between e-commerce platforms, suppliers, and logistics systems."
+            class="w-full rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
+          />
+        </div>
+
+        <div class="mb-12">
+          <h3 class="text-xl font-semibold text-primary-700 dark:text-primary-300 mb-6">API Solution Providers</h3>
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+              <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-3" data-ref="https://www.wholesale2b.com/best-dropship-api-services.html|8">Wholesale2B</h4>
+              <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                Provides a comprehensive dropshipping API solution that automates inventory management, order fulfillment, and tracking updates. Its API enables automated order placement from an e-commerce store directly to a supplier and facilitates real-time inventory synchronization to prevent overselling.
+              </p>
+            </div>
+
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+              <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-3" data-ref="https://flxpoint.com/blog/dropshipping-api-integrations-explained|9">AutoDS</h4>
+              <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                A full automation platform that functions as both a supplier marketplace and an automation layer. Its API covers product imports, price and stock monitoring, and automated order processing, including the ability to use personal buyer accounts on platforms like Amazon and Walmart as fulfillment sources.
+              </p>
+            </div>
+
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+              <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-3" data-ref="https://flxpoint.com/blog/dropshipping-api-integrations-explained|9">Spocket</h4>
+              <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                Focuses on US and EU-based suppliers for faster shipping times. Its API supports catalog imports, inventory sync, and automated order fulfillment, providing pre-negotiated wholesale pricing that feeds directly into the API feed, simplifying margin calculation.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hs-accordion-group space-y-4">
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-api-1">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="code" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Technical Implementation Flow</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-api-1" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-api-1">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://flxpoint.com/blog/dropshipping-api-integrations-explained|9">
+                  The typical technical flow for a dropshipping API integration involves four main steps: 1) Authentication using an API key, token, or OAuth credentials. 2) Data Pulling via recurring GET requests to fetch catalogs and inventory from the supplier. 3) Order Pushing when an order is placed, sending a POST request to the supplier's order endpoint. 4) Status &amp; Tracking Sync where shipment and tracking information is pulled back from the supplier's API and pushed to the sales channel.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.inventorysource.com/supplier-api-integration-guide-for-ecommerce-businesses/|20">
+                  API documentation review is a critical first step, requiring developers to confirm available endpoints (for products, inventory, orders, shipments), supported request methods (GET, POST, PUT, etc.), and key technical limits such as rate limits, pagination methods, required parameters, and supported data formats like JSON or XML.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-api-2">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="lock" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Secure Authentication Methods</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-api-2" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-api-2">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.inventorysource.com/supplier-api-integration-guide-for-ecommerce-businesses/|20">
+                  Secure authentication is essential for API connections. Common methods include API keys, bearer tokens, OAuth 2.0 for controlled authorization without sharing credentials, and basic authentication with protected usernames/passwords. Best practices involve not storing credentials in application code, using separate credentials for development and production, and following the principle of least privilege for access permissions.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.inventorysource.com/supplier-api-integration-guide-for-ecommerce-businesses/|20">
+                  Automated order submission requires converting store data into the supplier's API format. Key data points include SKU/quantity mapping, customer delivery address, shipping method selection, and adding an internal order reference number. The system must validate all required fields before sending the request to the supplier.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sourcing Platforms Section -->
+    <section id="platforms" class="py-20 bg-white/80 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-8 text-primary-700 dark:text-primary-300">
+          Sourcing Platform Ecosystems
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+            <div class="flex items-start space-x-4">
+              <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="shopping-cart" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-3" data-ref="https://piratify.io/blog-posts/best-dropshipping-suppliers-for-shopify-al6c|6">Factory-Direct Marketplaces</h3>
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  Manufacturers and wholesalers on platforms like 1688, Taobao, and Weidian often sell at prices <span class="mx-1 px-1.5 py-0.5 rounded-md bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-300 font-semibold text-sm">30–60%</span> below what the same products cost on AliExpress, making them attractive for factory-direct sourcing. A key distinction is made between suppliers and apps: a supplier holds or sources physical products for shipping, while an app automates the connection between a store and one or more suppliers.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+            <div class="flex items-start space-x-4">
+              <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="zap" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-accent-700 dark:text-accent-300 mb-3" data-ref="https://piratify.io/blog-posts/best-dropshipping-suppliers-for-shopify-al6c|6">Automation Tools</h3>
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  AutoDS is presented as a powerful automation tool for high-volume sellers who have outgrown manual operations. It connects to over <span class="mx-1 px-1.5 py-0.5 rounded-md bg-accent-100 dark:bg-accent-900/30 text-accent-800 dark:text-accent-300 font-semibold text-sm">26 supplier sources</span>, including AliExpress, Amazon, Walmart, and CJ Dropshipping, to automate price monitoring, stock updates, listing imports, and order fulfillment from a single dashboard.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-12">
+          <h3 class="text-xl font-semibold text-primary-700 dark:text-primary-300 mb-6">Platform Comparison Matrix</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+              <thead>
+                <tr class="bg-primary-100 dark:bg-primary-900/30">
+                  <th class="px-6 py-4 text-left text-sm font-semibold text-primary-800 dark:text-primary-200">Platform</th>
+                  <th class="px-6 py-4 text-left text-sm font-semibold text-primary-800 dark:text-primary-200">Focus</th>
+                  <th class="px-6 py-4 text-left text-sm font-semibold text-primary-800 dark:text-primary-200">Key Features</th>
+                  <th class="px-6 py-4 text-left text-sm font-semibold text-primary-800 dark:text-primary-200">Best For</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                <tr class="hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors">
+                  <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300" data-ref="https://easync.io/articles/china-dropshipping/|27">1688.com</td>
+                  <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">Factory Direct</td>
+                  <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">Deepest catalog, competitive pricing <span class="mx-1 px-1.5 py-0.5 rounded-md bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-300 font-semibold text-xs">30%+</span> below Alibaba</td>
+                  <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">Optimizing profit margins</td>
+                </tr>
+                <tr class="hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors">
+                  <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300" data-ref="https://easync.io/articles/china-dropshipping/|27">Alibaba</td>
+                  <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">International</td>
+                  <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">Trade Assurance, Gold Supplier badges, institutional track record</td>
+                  <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">Private label production</td>
+                </tr>
+                <tr class="hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors">
+                  <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300" data-ref="https://easync.io/articles/china-dropshipping/|27">Sunsky</td>
+                  <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">Mobile Accessories</td>
+                  <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">Dropshipping API, multi-country warehouses</td>
+                  <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">Phone accessories niche</td>
+                </tr>
+                <tr class="hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors">
+                  <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300" data-ref="https://www.fforder.com/post/dropshipping-suppliers|5">SaleHoo</td>
+<td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">Directory</td>
+                  <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">Curated suppliers, manual relationship building</td>
+                  <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">Long-term partnerships</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="hs-accordion-group space-y-4">
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-platforms-1">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="briefcase" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Manual Sourcing Services</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-platforms-1" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-platforms-1">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.fforder.com/post/dropshipping-suppliers|5">
+                  Jingsourcing is identified as a China-based sourcing company that operates as a manual service rather than an automated platform. Its core services include connecting sellers with factories, negotiating prices, conducting quality checks, managing custom production (OEM/ODM), and coordinating logistics. It is described as ideal for mid-to-high-end sellers who want to build a brand and establish long-term supply chain partnerships.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.fforder.com/post/dropshipping-suppliers|5">
+                  Trade shows are highlighted as a highly effective method for finding and vetting direct Chinese suppliers. Events like the Canton Fair and Hong Kong Electronics Fair allow for in-person meetings to assess production capacity, custom services, and fulfillment reliability, which can facilitate the formation of long-term partnerships.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-platforms-2">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="database" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">AI-Powered Discovery Tools</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-platforms-2" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-platforms-2">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.sourceready.com/blog/top-product-sourcing-tools-guide|18">
+                  SourceReady is an end-to-end AI-driven sourcing agent designed to manage the entire supply chain cycle. It combines supplier discovery, communication, and data validation into a single workflow. Its key features include AI Market Insight (scans Amazon, Shopify for trend data), Supplier Research (accesses a verified database of <span class="mx-1 px-1.5 py-0.5 rounded-md bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-300 font-semibold text-sm">1.2 million suppliers</span> from customs data and trade directories), AI Outreach Automation, RFQ Management, and Quote Comparison.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.sourceready.com/blog/top-product-sourcing-tools-guide|18">
+                  ImportYeti is a tool that scrapes U.S. Customs data to reveal real import-export relationships between suppliers and brands. It can be used to verify if a trading company is posing as a manufacturer by showing who they have shipped to. Key features include shipment tracking, competitor insights (identifying where competitors source goods), and export volume review to assess supplier reliability based on consistency and frequency of shipments.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Negotiation Strategies Section -->
+    <section id="negotiation" class="py-20 bg-primary-50/50 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-8 text-primary-700 dark:text-primary-300">
+          Manual Negotiation Tactics
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 items-start mb-12">
+          <img
+            src="https://cdn.qwenlm.ai/62548d3e-637a-4acd-84ea-767cd44c3a52/0d345a41-13bb-4518-a204-0e7b7eb99c6e/5580f5c9-7dbf-45f2-8ce3-4024be493ac4.png?key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZV91c2VyX2lkIjoiNjI1NDhkM2UtNjM3YS00YWNkLTg0ZWEtNzY3Y2Q0NGMzYTUyIiwicmVzb3VyY2VfaWQiOiIwZDM0NWE0MS0xM2JiLTQ1MTgtYTIwNC0wZTdiN2ViOTljNmUiLCJyZXNvdXJjZV9jaGF0X2lkIjpudWxsfQ.Yq0j7umlEYGkAdfoNDz-31og-xYXAQadghRbSM3KfN0"
+            alt="Professional business meeting scene in a modern conference room with large windows overlooking a city skyline. Two people sit across from each other at a polished wooden table: a Western buyer in a navy blue suit and a Chinese supplier in a dark gray suit. Between them are printed documents, a laptop screen showing a spreadsheet with Chinese characters, and a cup of tea. The Chinese supplier gestures with his hand while speaking, and the Western buyer nods with a focused expression. The room features neutral beige walls, a Chinese-style decorative vase with bamboo plants in the corner, and natural daylight streaming through the windows. The atmosphere conveys a serious, collaborative negotiation environment with cultural respect and professional formality."
+            class="w-full rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
+          />
+
+          <div class="space-y-6">
+            <h3 class="text-2xl font-semibold text-primary-700 dark:text-primary-300">Cultural Considerations</h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed" data-ref="https://www.livelingo.io/guides/how-to-communicate-with-chinese-suppliers|15">
+              Chinese business culture is high-context, prioritizing harmony over directness. A supplier saying 'maybe possible' about a delivery date is following cultural norms, not being evasive. Western buyers should avoid approaching Chinese suppliers like domestic vendors. Guanxi (relationship network) is more important than price in China. It's a complex web of mutual obligations that determines priority when factories are overbooked.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed" data-ref="https://www.epicsourcing.co/post/23-may-how-to-negotiate-with-chinese-suppliers|23">
+              In Chinese business culture, the first quote from a supplier is rarely the final offer. It is standard practice to build room into initial quotes for negotiation. A buyer who accepts the first price without discussion can be viewed with suspicion, as it may signal they do not understand their market or are planning to disappear after one order.
+            </p>
+            
+            <div class="pl-4 pr-3 py-3 border-l-4 border-primary-500 bg-primary-50/40 dark:bg-primary-900/30 rounded-r-lg">
+              <p class="text-sm font-medium text-primary-900 dark:text-primary-100 leading-relaxed" data-ref="https://www.epicsourcing.co/post/23-may-how-to-negotiate-with-chinese-suppliers|23">
+                <i data-lucide="info" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+                The most effective negotiation style with Chinese suppliers is described as "firm but fair." This approach is clear about your needs, respectful of the supplier's constraints, and focuses on building a long-term partnership rather than winning a single transaction.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-12">
+          <h3 class="text-xl font-semibold text-primary-700 dark:text-primary-300 mb-6">Key Negotiation Variables</h3>
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+              <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-3" data-ref="https://www.alexchains.com/blog/how-to-negotiate-with-chinese-suppliers|22">Unit Price</h4>
+              <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                Focus on the total commercial package, not just unit price. Common areas for discussion include Minimum Order Quantity (MOQ), Sample Cost, Tooling/Mold Cost, Payment Terms, Production Lead Time, Packaging, and Inspection Requirements.
+              </p>
+            </div>
+
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+              <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-3" data-ref="https://www.alexchains.com/blog/how-to-negotiate-with-chinese-suppliers|22">MOQ Negotiation</h4>
+              <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                To negotiate MOQ effectively, first identify what sets the minimum (e.g., machine setup, material batch, custom printing). Then propose solutions like reducing variants, using existing materials or standard packaging, or accepting a small run at a higher unit price plus a separate setup charge.
+              </p>
+            </div>
+
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+              <h4 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-3" data-ref="https://www.alexchains.com/blog/how-to-negotiate-with-chinese-suppliers|22">Payment Terms</h4>
+              <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                Payment terms are negotiable and should balance risk. Options include deposit percentage, timing of the balance payment (before/after shipment), payment after inspection milestones, and linking payments to production progress.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hs-accordion-group space-y-4">
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-negotiation-1">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="handshake" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Communication Channels &amp; Timing</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-negotiation-1" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-negotiation-1">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://agcis.com/wechat-or-email-how-to-contact-your-chinese-supplier/|13">
+                  WeChat is the primary daily communication tool for many Chinese professionals, used for both internal company discussions and external business communication with customers, suppliers, and partners. It is considered more efficient than email for quick feedback on non-formal matters.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.maplesourcing.com/how-to-contact-chinese-factories.html|14">
+                  Timing is crucial for outreach. Send messages during Chinese business hours to ensure they are seen when the sales team starts their day. Avoid sending messages just before major holidays, as they may be buried under unread threads until the factory reopens.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.livelingo.io/guides/how-to-communicate-with-chinese-suppliers|15">
+                  The official time zone in China is UTC+08:00. For effective communication, schedule important calls between 9 PM and midnight Pacific Time to catch suppliers during their business hours. Do not expect immediate responses to emails sent at 3 PM your time, as they may be asleep.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-negotiation-2">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="target" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Strategic Leverage Points</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-negotiation-2" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-negotiation-2">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.facebook.com/groups/enablersbysaqibazhar/posts/4148065268853629/|21">
+                  A 'Test Order' strategy involves offering a small trial order to demonstrate long-term interest and commitment. This approach makes suppliers more flexible on Minimum Order Quantity (MOQ) and pricing in exchange for the promise of future larger orders.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.epicsourcing.co/post/23-may-how-to-negotiate-with-chinese-suppliers|23">
+                  To negotiate price effectively, ask the supplier to break down their quote to identify cost drivers. Common areas include raw material grade, surface finishing, packaging complexity, certification requirements (e.g., CE, FDA), and order volume. Suggesting changes like swapping a material grade or simplifying packaging can reduce costs by <span class="mx-1 px-1.5 py-0.5 rounded-md bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-300 font-semibold text-sm">10-20%</span> without affecting product quality.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://harris-sliwoski.com/chinalawblog/how-to-negotiate-with-your-chinese-manufacturers/|31">
+                  To protect against implausible Delivered Duty Paid (DDP) offers, which may involve hidden risks like undervaluation or misclassification, buyers should request an ex-works price. This shifts control over customs compliance back to the buyer.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Inspection & Quality Control Section -->
+    <section id="inspection" class="py-20 bg-white/80 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-8 text-primary-700 dark:text-primary-300">
+          Third-Party Inspection Services
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+            <div class="flex items-start space-x-4">
+              <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="clipboard-check" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-primary-700 dark:text-primary-300 mb-3" data-ref="https://change-sourcing.com/third-party-inspection-companies-in-china-2/|11">Core Inspection Services</h3>
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  Third-party inspection is an independent quality verification service where an inspector attends the factory to check goods against the buyer's specifications and reports findings directly to the buyer. Core services include Initial Production Check (IPC) before mass production begins, During Production Inspection (DUPRO) when <span class="mx-1 px-1.5 py-0.5 rounded-md bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-300 font-semibold text-sm">20-50%</span> of the order is complete, and Pre-Shipment Inspection (PSI) when <span class="mx-1 px-1.5 py-0.5 rounded-md bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-300 font-semibold text-sm">80%</span> or more is finished.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+            <div class="flex items-start space-x-4">
+              <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="award" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-accent-700 dark:text-accent-300 mb-3" data-ref="https://change-sourcing.com/third-party-inspection-companies-in-china-2/|11">Leading Inspection Companies</h3>
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                  Global Testing, Inspection, and Certification (TIC) companies with extensive operations in China include SGS, Bureau Veritas, Intertek, and TÜV Rheinland. They are best suited for buyers requiring formally accredited documentation for regulated market entry, such as CE marking, FCC authorization, or government-tender certification.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-12">
+          <h3 class="text-xl font-semibold text-primary-700 dark:text-primary-300 mb-6">Inspection Provider Evaluation Criteria</h3>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+              <div class="flex items-start space-x-3">
+                <i data-lucide="user-check" class="w-5 h-5 text-primary-600 dark:text-primary-400 mt-1"></i>
+                <div>
+                  <h4 class="text-sm font-semibold text-primary-700 dark:text-primary-300 mb-2" data-ref="https://www.chinaqualityservice.com/services|10">Full-Time Inspectors</h4>
+                  <p class="text-xs text-gray-700 dark:text-gray-300">Focus on full-time, in-house inspectors with professional training and verifiable integrity controls.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+              <div class="flex items-start space-x-3">
+                <i data-lucide="clock" class="w-5 h-5 text-primary-600 dark:text-primary-400 mt-1"></i>
+                <div>
+                  <h4 class="text-sm font-semibold text-primary-700 dark:text-primary-300 mb-2" data-ref="https://www.chinaqualityservice.com/services|10">Turnaround Times</h4>
+                  <p class="text-xs text-gray-700 dark:text-gray-300">Standard pricing is typically between <span class="mx-1 px-1.5 py-0.5 rounded-md bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-300 font-semibold text-[10px]">$150-$350</span> per man-day with 24-hour report guarantee.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+              <div class="flex items-start space-x-3">
+                <i data-lucide="file-text" class="w-5 h-5 text-primary-600 dark:text-primary-400 mt-1"></i>
+                <div>
+                  <h4 class="text-sm font-semibold text-primary-700 dark:text-primary-300 mb-2" data-ref="https://www.chinaqualityservice.com/services|10">Report Quality</h4>
+                  <p class="text-xs text-gray-700 dark:text-gray-300">Look for high-resolution photos, clear evidence quality, and pricing transparency without hidden fees.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+              <div class="flex items-start space-x-3">
+                <i data-lucide="shield-alert" class="w-5 h-5 text-accent-600 dark:text-accent-400 mt-1"></i>
+                <div>
+                  <h4 class="text-sm font-semibold text-accent-700 dark:text-accent-300 mb-2" data-ref="https://www.maplesourcing.com/inspection-companies-in-china-how-to-choose.html|12">Accreditation Verification</h4>
+                  <p class="text-xs text-gray-700 dark:text-gray-300">Verify ISO/IEC 17020 accreditation by requesting the certificate to check issuance, validity, and scope coverage.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+              <div class="flex items-start space-x-3">
+                <i data-lucide="users" class="w-5 h-5 text-accent-600 dark:text-accent-400 mt-1"></i>
+                <div>
+                  <h4 class="text-sm font-semibold text-accent-700 dark:text-accent-300 mb-2" data-ref="https://www.maplesourcing.com/inspection-companies-in-china-how-to-choose.html|12">Inspector Experience</h4>
+                  <p class="text-xs text-gray-700 dark:text-gray-300">Inquire about inspector experience in your product category and whether they are on staff or subcontractors.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-interactive p-6 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+              <div class="flex items-start space-x-3">
+                <i data-lucide="message-square" class="w-5 h-5 text-accent-600 dark:text-accent-400 mt-1"></i>
+                <div>
+                  <h4 class="text-sm font-semibold text-accent-700 dark:text-accent-300 mb-2" data-ref="https://www.maplesourcing.com/inspection-companies-in-china-how-to-choose.html|12">Communication</h4>
+                  <p class="text-xs text-gray-700 dark:text-gray-300">Clarify booking lead times and report turnaround times to ensure timely delivery of inspection results.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hs-accordion-group space-y-4">
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-inspection-1">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="package" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Quality Control Workflow</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-inspection-1" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-inspection-1">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.intouch-quality.com/blog/5-keys-to-successful-sourcing-from-china|3">
+                  Product inspection is vital for quality control. There are three main stages: Pre-production (checks raw materials/components), During Production (DUPRO - checks during various processes), and Final Inspection (checks finished goods and packaging). Third-party inspection services are highly recommended over relying on a factory's own QC staff, who may have a conflict of interest.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://www.chinaqualityservice.com/services|10">
+                  A range of third-party inspection services are available to verify product quality at Chinese factories. These include Initial Production Check (IPC) for raw materials and first pieces, During Production Inspection (DPI) for random sampling during production, Pre-Shipment Inspection (PSI) as the final quality gate before shipping, Full Inspection (100% examination), and Container Loading Supervision (CLS) to prevent misloading.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hs-accordion card-interactive bg-white/80 backdrop-blur-sm dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <button class="hs-accordion-toggle w-full flex justify-between items-center p-4 text-left hover:bg-primary-50 dark:hover:bg-gray-700/50 transition-colors rounded-xl" id="hs-inspection-2">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                  <i data-lucide="circle-help" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <span class="font-semibold text-lg text-primary-700 dark:text-primary-300">Remote Factory Audits</span>
+              </div>
+              <i data-lucide="chevron-down" class="hs-accordion-active:rotate-180 transition-transform duration-300 w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+            <div id="hs-collapse-inspection-2" class="hs-accordion-content hidden w-full overflow-hidden transition-[height] duration-300" aria-labelledby="hs-inspection-2">
+              <div class="p-6 pt-0 space-y-4">
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://js-sourcing.com/blog/how-to-verify-a-chinese-factory-without-visiting-china-video-call-checklist-document-review/|45">
+                  A remote factory audit should combine four key steps to verify a supplier: 1) Video Factory Audit (live location, machines, warehouse), 2) Document Review (business license, certificates, export records), 3) Third-Party Verification (on-site inspection by an independent company), and 4) Trial Order (small batch to test delivery, quality, and communication).
+                </p>
+                <p class="text-gray-700 dark:text-gray-300" data-ref="https://js-sourcing.com/blog/how-to-verify-a-chinese-factory-without-visiting-china-video-call-checklist-document-review/|45">
+                  To verify a factory's physical existence, request a continuous <span class="mx-1 px-1.5 py-0.5 rounded-md bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-300 font-semibold text-sm">30-second panoramic video</span> from the gate showing the location, road signs, nearby landmarks, and a dated document like a delivery receipt. Cross-reference this live location with the address on the business license and the National Enterprise Credit Information Publicity System.
+                </p>
+                <div class="pl-4 pr-3 py-3 border-l-4 border-amber-500 bg-amber-50/40 dark:bg-amber-900/30 rounded-r-lg">
+                  <p class="text-sm font-medium text-amber-900 dark:text-amber-100 leading-relaxed" data-ref="https://js-sourcing.com/blog/how-to-verify-a-chinese-factory-without-visiting-china-video-call-checklist-document-review/|45">
+                    <i data-lucide="alert-triangle" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+                    Warning: A supplier who refuses inspection access is a major red flag. Hiring a local third-party inspection company (e.g., SGS) for an on-site visit is a reliable verification method.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Conclusion Section -->
+    <section id="conclusion" class="py-20 bg-primary-50/50 dark:bg-gray-900" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-8 text-primary-700 dark:text-primary-300 text-center">
+          Strategic Framework Summary
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+          <div class="card-interactive p-8 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+            <div class="flex items-start space-x-4 mb-4">
+              <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="layers" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold text-primary-700 dark:text-primary-300 mb-3">Automated Integration</h3>
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed" data-ref="https://learn.g2.com/how-to-automate-dropshipping|43">
+                  The core automation stack for dropshipping involves four steps: 1) Set up an e-commerce store (e.g., Shopify, WooCommerce). 2) Connect it to a dedicated dropshipping platform (e.g., Printful, AliDropship). 3) Configure inventory syncing and pricing rules. 4) Enable auto-ordering and tracking number automation to create a full-cycle fulfillment system.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-interactive p-8 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md">
+            <div class="flex items-start space-x-4 mb-4">
+              <div class="flex-shrink-0 w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="handshake" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold text-accent-700 dark:text-accent-300 mb-3">Manual Relationship Building</h3>
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed" data-ref="https://www.livelingo.io/guides/how-to-negotiate-with-factories-in-china|32">
+                  In Chinese business culture, 'guanxi' (relationship-based trust) is paramount. Aggressive price demands are counterproductive; instead, build rapport by showing genuine interest in the factory owner's business, asking about their challenges, and framing yourself as a long-term partner rather than a commodity buyer.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-interactive p-8 bg-white/90 backdrop-blur-sm dark:bg-gray-800 rounded-xl shadow-md mb-8">
+          <h3 class="text-xl font-semibold text-primary-700 dark:text-primary-300 mb-6">Implementation Roadmap</h3>
+          <div class="space-y-4">
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0 w-8 h-8 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center text-primary-700 dark:text-primary-300 font-bold">1</div>
+              <div>
+                <h4 class="font-semibold text-primary-700 dark:text-primary-300 mb-1" data-ref="https://chinesecheck.com/blog/spot-fake-suppliers-alibaba|4">Supplier Identification &amp; Filtering</h4>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Use Alibaba badges as a starting point, then run the 15-signal scan on every finalist. Cross-check the Chinese legal name, registration date, address, and legal representative against gsxt.gov.cn.</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0 w-8 h-8 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center text-primary-700 dark:text-primary-300 font-bold">2</div>
+              <div>
+                <h4 class="font-semibold text-primary-700 dark:text-primary-300 mb-1" data-ref="https://www.intouch-quality.com/blog/5-keys-to-successful-sourcing-from-china|3">Verification &amp; Testing</h4>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Demand five key artifacts: a clear photo of the business license, a live video walkthrough of the production line, a bank-account confirmation letter, third-party audit reports, and references from international customers. Request product samples to evaluate actual capabilities.</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0 w-8 h-8 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center text-primary-700 dark:text-primary-300 font-bold">3</div>
+              <div>
+                <h4 class="font-semibold text-primary-700 dark:text-primary-300 mb-1" data-ref="https://www.facebook.com/groups/enablersbysaqibazhar/posts/4148065268853629/|21">Negotiation &amp; Contracting</h4>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Present yourself professionally, never accept the first quote, leverage competition, and offer a small trial order to demonstrate long-term interest. Establish clear expectations using a detailed Quality Control checklist and issue a purchase order with all details included.</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0 w-8 h-8 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center text-primary-700 dark:text-primary-300 font-bold">4</div>
+              <div>
+                <h4 class="font-semibold text-primary-700 dark:text-primary-300 mb-1" data-ref="https://www.inventorysource.com/supplier-api-integration-guide-for-ecommerce-businesses/|20">Technical Integration</h4>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Review API documentation to confirm available endpoints, supported request methods, and technical limits. Implement secure authentication, configure inventory synchronization methods, and establish robust error handling with retry logic and escalation procedures.</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0 w-8 h-8 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center text-primary-700 dark:text-primary-300 font-bold">5</div>
+              <div>
+                <h4 class="font-semibold text-primary-700 dark:text-primary-300 mb-1" data-ref="https://www.chinaqualityservice.com/services|10">Quality Assurance</h4>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Conduct Initial Production Check, During Production Inspection, and Pre-Shipment Inspection using ANSI/ASQ Z1.4 statistical sampling standards. Use third-party inspection services for objective, photo-documented evidence and independent verification.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pl-4 pr-3 py-3 border-l-4 border-primary-500 bg-primary-50/40 dark:bg-primary-900/30 rounded-r-lg">
+          <p class="text-sm font-medium text-primary-900 dark:text-primary-100 leading-relaxed" data-ref="https://www.fforder.com/post/dropshipping-suppliers|5">
+            <i data-lucide="info" class="inline-block w-4 h-4 mr-1.5 -mt-0.5"></i>
+            Key Insight: The research identifies two distinct operational approaches: automated platform integration for e-commerce efficiency and manual relationship-building tactics for custom sourcing and negotiation. This dual-method approach ensures comprehensive coverage of modern digital sourcing tools alongside traditional procurement relationship management within the Chinese manufacturing ecosystem.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-primary-900 dark:bg-gray-950 text-primary-100 dark:text-gray-300 py-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid md:grid-cols-3 gap-8 mb-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-4 text-primary-50 dark:text-primary-300">About This Research</h3>
+          <p class="text-sm text-primary-200 dark:text-gray-400 leading-relaxed">
+            Comprehensive analysis of direct Chinese dropshipping sourcing strategies, combining automated integration and manual negotiation approaches for niche-agnostic supplier discovery.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4 text-primary-50 dark:text-primary-300">Key Topics</h3>
+          <ul class="space-y-2 text-sm text-primary-200 dark:text-gray-400">
+            <li>• Supplier Verification Protocols</li>
+            <li>• API Integration Architecture</li>
+            <li>• Sourcing Platform Ecosystems</li>
+            <li>• Manual Negotiation Tactics</li>
+            <li>• Third-Party Inspection Services</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4 text-primary-50 dark:text-primary-300">Research Focus</h3>
+          <p class="text-sm text-primary-200 dark:text-gray-400 leading-relaxed">
+            Dual-method approach addressing automated platform integration for e-commerce efficiency and manual relationship-building tactics for custom sourcing and negotiation.
+          </p>
+        </div>
+      </div>
+      <div class="border-t border-primary-700 dark:border-gray-800 pt-8 text-center">
+        <p class="text-sm text-primary-200 dark:text-gray-500">
+          Educational resource for understanding Chinese dropshipping sourcing methodologies. All information derived from referenced sources.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Initialize AOS
+    AOS.init({
+      duration: 800,
+      once: true,
+      offset: 100
+    });
+
+    // Progress bar
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.pageYOffset;
+      const docHeight = document.body.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+      document.getElementById('progressBar').style.width = scrollPercent + '%';
+    });
+
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Initialize citation system after page load
+    document.addEventListener('DOMContentLoaded', function() {
+      initCitationSystem();
+      
+      // Reinitialize Lucide icons after citation buttons are added
+      setTimeout(() => {
+        lucide.createIcons();
+      }, 100);
+    });
+  </script>
+</body>
+</html>
