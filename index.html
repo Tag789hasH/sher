@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Anniversary ❤️</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at center, #2a0510 0%, #050002 100%);
+    overflow: hidden;
+    font-family: 'Georgia', serif;
+  }
+
+  /* Cover Letter Screen */
+  #cover-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a0b12 0%, #0a0a0f 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    transition: opacity 1s ease-in-out;
+  }
+
+  .letter-card {
+    background: #fff5f5;
+    color: #2b1d1d;
+    width: 420px;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(255, 105, 180, 0.3);
+    text-align: center;
+    border: 2px solid #ffd1d1;
+  }
+
+  .letter-date {
+    font-size: 14px;
+    color: #885555;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .letter-card h1 {
+    font-size: 28px;
+    color: #d6336c;
+    margin-bottom: 15px;
+  }
+
+  .letter-card p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #4a3b3b;
+    margin-bottom: 30px;
+  }
+
+  .open-btn {
+    background: #d6336c;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-family: 'Georgia', serif;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(214, 51, 108, 0.4);
+    transition: all 0.3s ease;
+    width: 100%;
+  }
+
+  .open-btn:hover {
+    background: #c2255c;
+    transform: scale(1.02);
+  }
+
+  /* Canvas Hidden Initially */
+  canvas {
+    display: none;
+    max-width: 95vmin;
+    max-height: 95vmin;
+    filter: drop-shadow(0 0 30px rgba(255, 50, 100, 0.3));
+  }
+
+  .info {
+    position: absolute;
+    bottom: 20px;
+    color: #ff88a8;
+    font-size: 12px;
+    letter-spacing: 2px;
+    opacity: 0.6;
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- Cover Letter Screen -->
+<div id="cover-screen">
+    <div class="letter-card">
+        <div class="letter-date">15 / 10 / 2026</div>
+        <h1>Happy Anniversary</h1>
+        <p>Every single moment with you feels like magic. I created something special just for you to celebrate our journey together.</p>
+        <button class="open-btn" onclick="startExperience()">Open Letter ❤️</button>
+    </div>
+</div>
+
+<canvas id="canvas" width="800" height="800"></canvas>
+<div id="info-text" class="info">♥ 20 LANGUAGES ♥</div>
+
+<!-- Pre-set Background Audio Track (Autoplays on click) -->
+<audio id="bg-music" preload="auto" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=romantic-ambient-111214.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  function startExperience() {
+    const music = document.getElementById("bg-music");
+    
+    // Autoplay the background song immediately upon click
+    music.play().catch(e => console.log("Audio play prevented:", e));
+
+    // Fade out cover screen and reveal your heart animation
+    const cover = document.getElementById("cover-screen");
+    cover.style.opacity = 0;
+    setTimeout(() => {
+      cover.style.display = "none";
+      document.getElementById("canvas").style.display = "block";
+      document.getElementById("info-text").style.display = "block";
+      initHeartAnimation();
+    }, 1000);
+  }
+
+  function initHeartAnimation() {
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width;
+    const H = canvas.height;
+
+    // 1. The 20 Phrases
+    const phrases = [
+      "I love you", "Te amo", "Je t'aime", "Ti amo", "Ich liebe dich",
+      "Eu te amo", "Я тебя люблю", "我爱你", "愛してる", "사랑해",
+      "أحبك", "मैं तुमसे प्यार करता हूँ", "Seni seviyorum", "Σ'αγαπώ", 
+      "Ik hou van je", "Jag älskar dig", "Kocham cię", "אני אוהב אותך", 
+      "ฉันรักคุณ", "Anh yêu em"
+    ];
+
+    // 2. Generate the Heart Shape Mask using an Offscreen Canvas
+    const offscreen = document.createElement('canvas');
+    offscreen.width = W;
+    offscreen.height = H;
+    const offCtx = offscreen.getContext('2d');
+
+    offCtx.fillStyle = 'white';
+    offCtx.beginPath();
+    const cx = W / 2, cy = H / 2;
+    const size = 650;
+    
+    offCtx.moveTo(cx, cy + size * 0.35);
+    offCtx.bezierCurveTo(cx, cy + size * 0.35, cx - size * 0.45, cy + size * 0.05, cx - size * 0.45, cy - size * 0.15);
+    offCtx.bezierCurveTo(cx - size * 0.45, cy - size * 0.45, cx - size * 0.1, cy - size * 0.45, cx, cy - size * 0.15);
+    offCtx.bezierCurveTo(cx + size * 0.1, cy - size * 0.45, cx + size * 0.45, cy - size * 0.45, cx + size * 0.45, cy - size * 0.15);
+    offCtx.bezierCurveTo(cx + size * 0.45, cy + size * 0.05, cx, cy + size * 0.35, cx, cy + size * 0.35);
+    offCtx.closePath();
+    offCtx.fill();
+
+    // 3. Sample points inside the heart
+    const targets = [];
+    const step = 16; 
+
+    const imageData = offCtx.getImageData(0, 0, W, H);
+    for (let y = 0; y < H; y += step) {
+      for (let x = 0; x < W; x += step) {
+        const i = (y * W + x) * 4;
+        if (imageData.data[i + 3] > 0) { 
+          targets.push({ x, y });
+        }
+      }
+    }
+
+    // Shuffle targets
+    for (let i = targets.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [targets[i], targets[j]] = [targets[j], targets[i]];
+    }
+
+    // 4. Create Particles
+    class TextParticle {
+      constructor(target, text) {
+        this.target = target;
+        this.text = text;
+        this.x = Math.random() * W;
+        this.y = Math.random() * H;
+        this.vx = 0;
+        this.vy = 0;
+        this.fontSize = 10 + Math.random() * 4;
+        this.hue = 340 + Math.random() * 30; 
+        this.lightness = 65 + Math.random() * 20;
+        this.phase = Math.random() * Math.PI * 2;
+      }
+
+      update(pulseScale) {
+        const tx = cx + (this.target.x - cx) * pulseScale;
+        const ty = cy + (this.target.y - cy) * pulseScale;
+
+        const dx = tx - this.x;
+        const dy = ty - this.y;
+        this.vx += dx * 0.06;
+        this.vy += dy * 0.06;
+        
+        this.vx *= 0.82;
+        this.vy *= 0.82;
+
+        this.x += this.vx;
+        this.y += this.vy;
+        this.phase += 0.03;
+      }
+
+      draw(ctx) {
+        ctx.font = `bold ${this.fontSize}px 'Segoe UI', Arial, sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        const l = this.lightness + Math.sin(this.phase) * 10;
+        ctx.fillStyle = `hsl(${this.hue}, 90%, ${l}%)`;
+        
+        ctx.globalAlpha = 0.85; 
+        ctx.fillText(this.text, this.x, this.y);
+        ctx.globalAlpha = 1.0;
+      }
+    }
+
+    const particles = targets.map((target, i) => {
+      return new TextParticle(target, phrases[i % phrases.length]);
+    });
+
+    // 5. Animation Loop
+    let time = 0;
+
+    function animate() {
+      ctx.clearRect(0, 0, W, H);
+      time += 0.02;
+
+      const pulseScale = 1 + Math.sin(time * 2.5) * 0.02 + Math.sin(time * 5) * 0.01;
+
+      particles.forEach(p => {
+        p.update(pulseScale);
+        p.draw(ctx);
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  }
+</script>
+
+</body>
+</html>
