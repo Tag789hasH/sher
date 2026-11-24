@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LUMEN — If you can dream it, we can source it</title>
+<meta name="description" content="A curated dropshipping store with an unlimited catalog. Can't find what you want? Request it — we'll source it from anywhere on Earth.">
+
+<!-- Stripe.js -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<style>
+  :root{
+    --bg:#0a0a0f; --bg2:#12121a; --fg:#f5f5f7; --muted:#9a9aa8;
+    --accent:#b14bff; --accent2:#00e5ff; --accent3:#ff4b8b;
+    --card:rgba(255,255,255,0.04); --border:rgba(255,255,255,0.08);
+  }
+  [data-theme="light"]{
+    --bg:#f6f4ef; --bg2:#ffffff; --fg:#111; --muted:#555;
+    --card:rgba(0,0,0,0.03); --border:rgba(0,0,0,0.08);
+  }
+  [data-theme="neon"]{
+    --bg:#000; --bg2:#050510; --fg:#fff; --muted:#8af;
+    --accent:#ff006e; --accent2:#00ff9d; --accent3:#ffbe0b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    background:var(--bg);color:var(--fg);overflow-x:hidden;
+    transition:background .6s,color .6s;
+  }
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    padding:18px 40px;display:flex;justify-content:space-between;align-items:center;
+    backdrop-filter:blur(20px);background:rgba(10,10,15,0.6);
+    border-bottom:1px solid var(--border);
+  }
+  .logo{font-weight:800;font-size:22px;letter-spacing:4px;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer;
+  }
+  .nav-links{display:flex;gap:24px;align-items:center}
+  .nav-links a{color:var(--fg);text-decoration:none;font-size:14px;opacity:.8;transition:opacity .2s}
+  .nav-links a:hover{opacity:1}
+  .request-btn{
+    background:linear-gradient(135deg,var(--accent3),var(--accent));
+    color:#fff;padding:8px 18px;border-radius:30px;font-size:13px;font-weight:600;
+    cursor:pointer;border:none;transition:transform .2s;
+  }
+  .request-btn:hover{transform:translateY(-1px)}
+  .theme-switch{display:flex;gap:6px}
+  .theme-dot{width:18px;height:18px;border-radius:50%;cursor:pointer;border:2px solid var(--border);transition:transform .2s}
+  .theme-dot:hover{transform:scale(1.2)}
+  .cart-btn{position:relative;cursor:pointer;background:var(--card);
+    border:1px solid var(--border);padding:8px 16px;border-radius:30px;
+    color:var(--fg);font-size:13px;display:flex;align-items:center;gap:8px}
+  .cart-count{background:var(--accent);color:#fff;border-radius:50%;
+    width:20px;height:20px;display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:700}
+
+  /* HERO */
+  .hero{
+    min-height:100vh;display:flex;align-items:center;justify-content:center;
+    position:relative;overflow:hidden;padding:0 40px;
+  }
+  .orb{
+    position:absolute;width:600px;height:600px;border-radius:50%;
+    background:radial-gradient(circle,var(--accent) 0%,transparent 70%);
+    filter:blur(80px);opacity:.4;pointer-events:none;
+    transition:transform .3s ease-out;
+  }
+  .orb2{
+    position:absolute;width:500px;height:500px;border-radius:50%;
+    background:radial-gradient(circle,var(--accent2) 0%,transparent 70%);
+    filter:blur(80px);opacity:.3;right:-100px;bottom:-100px;
+  }
+  .hero-content{position:relative;z-index:2;text-align:center;max-width:1000px}
+  .hero-pill{
+    display:inline-flex;align-items:center;gap:8px;padding:8px 18px;
+    background:var(--card);border:1px solid var(--border);border-radius:30px;
+    font-size:13px;color:var(--muted);margin-bottom:24px;
+  }
+  .hero-pill .dot{width:8px;height:8px;background:var(--accent2);border-radius:50%;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  .hero h1{
+    font-size:clamp(48px,8vw,120px);font-weight:900;line-height:1;
+    letter-spacing:-3px;margin-bottom:24px;
+  }
+  .hero h1 span{
+    background:linear-gradient(135deg,var(--accent),var(--accent2),var(--accent3));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    background-size:200% 200%;animation:grad 6s ease infinite;
+  }
+  @keyframes grad{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .hero p{font-size:20px;color:var(--muted);max-width:650px;margin:0 auto 40px;line-height:1.6}
+  .hero-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+  .btn{
+    padding:16px 32px;border-radius:40px;border:none;cursor:pointer;
+    font-size:15px;font-weight:600;transition:all .3s;text-decoration:none;
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;
+    box-shadow:0 10px 40px rgba(177,75,255,.3);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 15px 50px rgba(177,75,255,.5)}
+  .btn-ghost{background:var(--card);color:var(--fg);border:1px solid var(--border)}
+  .btn-ghost:hover{background:var(--border)}
+
+  /* SOURCE ANYTHING BANNER */
+  .source-banner{
+    background:linear-gradient(135deg,rgba(177,75,255,.15),rgba(0,229,255,.15));
+    border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+    padding:60px 40px;text-align:center;
+  }
+  .source-banner h2{font-size:clamp(28px,4vw,48px);margin-bottom:16px;font-weight:800}
+  .source-banner h2 span{color:var(--accent2)}
+  .source-banner p{color:var(--muted);max-width:600px;margin:0 auto 24px;font-size:16px}
+  .source-examples{
+    display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px;
+  }
+  .source-chip{
+    padding:8px 16px;background:var(--card);border:1px solid var(--border);
+    border-radius:20px;font-size:13px;cursor:pointer;transition:all .2s;
+  }
+  .source-chip:hover{border-color:var(--accent);transform:translateY(-2px)}
+
+  /* SECTIONS */
+  section{padding:100px 40px;position:relative}
+  .section-head{text-align:center;margin-bottom:60px}
+  .section-head .eyebrow{color:var(--accent);font-size:13px;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px}
+  .section-head h2{font-size:clamp(36px,5vw,64px);font-weight:800;letter-spacing:-1.5px}
+  .section-head p{color:var(--muted);margin-top:12px;max-width:600px;margin-left:auto;margin-right:auto}
+
+  /* PRODUCTS */
+  .products-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:24px;max-width:1400px;margin:0 auto;
+  }
+  .product{
+    background:var(--card);border:1px solid var(--border);border-radius:24px;
+    overflow:hidden;cursor:pointer;transition:transform .4s cubic-bezier(.2,.8,.2,1);
+    transform-style:preserve-3d;position:relative;
+  }
+  .product:hover{box-shadow:0 30px 60px rgba(0,0,0,.3)}
+  .product-img{width:100%;aspect-ratio:1;overflow:hidden;position:relative;background:linear-gradient(135deg,#222,#111)}
+  .product-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+  .product:hover .product-img img{transform:scale(1.08)}
+  .product-tag{
+    position:absolute;top:12px;left:12px;background:var(--accent);
+    color:#fff;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;
+    text-transform:uppercase;letter-spacing:1px;
+  }
+  .product-info{padding:20px}
+  .product-info h3{font-size:17px;margin-bottom:6px}
+  .product-info .cat{font-size:12px;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
+  .product-foot{display:flex;justify-content:space-between;align-items:center}
+  .price{font-size:20px;font-weight:800}
+  .add-btn{
+    background:var(--fg);color:var(--bg);border:none;width:36px;height:36px;
+    border-radius:50%;cursor:pointer;font-size:18px;transition:transform .2s;
+  }
+  .add-btn:hover{transform:rotate(90deg) scale(1.1)}
+
+  /* PRODUCT MODAL */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:250;
+    opacity:0;pointer-events:none;transition:opacity .3s;
+    display:flex;align-items:center;justify-content:center;padding:20px;
+    backdrop-filter:blur(10px);
+  }
+  .modal-overlay.open{opacity:1;pointer-events:all}
+  .modal{
+    background:var(--bg2);border:1px solid var(--border);border-radius:24px;
+    max-width:1000px;width:100%;max-height:90vh;overflow-y:auto;
+    display:grid;grid-template-columns:1fr 1fr;position:relative;
+    transform:scale(.95);transition:transform .3s;
+  }
+  .modal-overlay.open .modal{transform:scale(1)}
+  .modal-close{
+    position:absolute;top:16px;right:16px;background:var(--card);
+    border:1px solid var(--border);color:var(--fg);width:36px;height:36px;
+    border-radius:50%;cursor:pointer;font-size:18px;z-index:2;
+  }
+  .modal-gallery{padding:30px;background:var(--card)}
+  .modal-main-img{width:100%;aspect-ratio:1;border-radius:16px;overflow:hidden;margin-bottom:12px}
+  .modal-main-img img{width:100%;height:100%;object-fit:cover}
+  .modal-thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .modal-thumb{aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:border .2s}
+  .modal-thumb.active{border-color:var(--accent)}
+  .modal-thumb img{width:100%;height:100%;object-fit:cover}
+  .modal-details{padding:40px;display:flex;flex-direction:column}
+  .modal-cat{font-size:12px;color:var(--accent);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+  .modal-details h2{font-size:32px;margin-bottom:12px}
+  .modal-rating{display:flex;align-items:center;gap:8px;margin-bottom:20px;font-size:14px;color:var(--muted)}
+  .modal-price{font-size:36px;font-weight:800;margin-bottom:20px}
+  .modal-desc{color:var(--muted);line-height:1.7;margin-bottom:24px}
+  .modal-options{margin-bottom:24px}
+  .modal-options label{font-size:13px;font-weight:600;display:block;margin-bottom:8px}
+  .option-chips{display:flex;gap:8px;flex-wrap:wrap}
+  .option-chip{
+    padding:8px 16px;border:1px solid var(--border);border-radius:20px;
+    cursor:pointer;font-size:13px;transition:all .2s;
+  }
+  .option-chip.selected{border-color:var(--accent);background:rgba(177,75,255,.1)}
+  .qty-row{display:flex;gap:12px;align-items:center;margin-bottom:24px}
+  .qty-control{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:30px;padding:6px}
+  .qty-control button{background:none;border:none;color:var(--fg);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px}
+  .qty-control span{min-width:24px;text-align:center;font-weight:600}
+  .modal-actions{display:flex;gap:12px;margin-bottom:24px}
+  .modal-actions .btn{flex:1;justify-content:center}
+  .modal-request{
+    padding:16px;background:linear-gradient(135deg,rgba(255,75,139,.1),rgba(177,75,255,.1));
+    border:1px solid var(--border);border-radius:16px;text-align:center;
+  }
+  .modal-request p{font-size:14px;margin-bottom:8px}
+  .modal-request a{color:var(--accent2);cursor:pointer;font-weight:600;text-decoration:underline}
+
+  /* REQUEST SECTION */
+  .request-section{background:var(--bg2);position:relative;overflow:hidden}
+  .request-section::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at 20% 50%,rgba(177,75,255,.15),transparent 50%),
+               radial-gradient(circle at 80% 50%,rgba(0,229,255,.15),transparent 50%);
+    pointer-events:none;
+  }
+  .request-wrap{max-width:1100px;margin:0 auto;position:relative;z-index:2}
+  .request-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+  .request-info h2{font-size:clamp(36px,5vw,56px);margin-bottom:20px;line-height:1.1}
+  .request-info h2 span{color:var(--accent2)}
+  .request-info p{color:var(--muted);font-size:17px;line-height:1.7;margin-bottom:24px}
+  .request-stats{display:flex;gap:30px;margin-bottom:24px}
+  .request-stat .num{font-size:32px;font-weight:800;color:var(--accent2)}
+  .request-stat .lbl{font-size:13px;color:var(--muted)}
+  .request-form{
+    background:var(--card);border:1px solid var(--border);border-radius:24px;
+    padding:32px;backdrop-filter:blur(10px);
+  }
+  .request-form h3{font-size:22px;margin-bottom:20px}
+  .form-group{margin-bottom:16px}
+  .form-group label{display:block;font-size:13px;margin-bottom:6px;color:var(--muted)}
+  .form-group input,.form-group textarea,.form-group select{
+    width:100%;padding:12px 16px;background:var(--bg);border:1px solid var(--border);
+    border-radius:12px;color:var(--fg);font-size:14px;font-family:inherit;
+  }
+  .form-group textarea{resize:vertical;min-height:80px}
+  .form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--accent)}
+  .file-upload{
+    border:2px dashed var(--border);border-radius:12px;padding:24px;
+    text-align:center;cursor:pointer;transition:all .2s;
+  }
+  .file-upload:hover{border-color:var(--accent)}
+  .file-upload input{display:none}
+  .file-upload .preview{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .file-upload .preview img{width:60px;height:60px;border-radius:8px;object-fit:cover}
+
+  /* BUNDLE BUILDER */
+  .builder{background:var(--bg)}
+  .builder-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 380px;gap:40px}
+  .bundle-pool{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+  .bundle-item{
+    aspect-ratio:1;border-radius:16px;overflow:hidden;cursor:grab;
+    border:2px solid var(--border);transition:all .3s;position:relative;
+  }
+  .bundle-item:hover{border-color:var(--accent);transform:scale(1.03)}
+  .bundle-item.in-bundle{border-color:var(--accent2);box-shadow:0 0 20px rgba(0,229,255,.3)}
+  .bundle-item img{width:100%;height:100%;object-fit:cover}
+  .bundle-item .bi-price{
+    position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,.8);
+    color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;
+  }
+  .bundle-summary{
+    background:var(--card);border:1px solid var(--border);border-radius:24px;
+    padding:28px;height:fit-content;position:sticky;top:100px;
+  }
+  .bundle-summary h3{margin-bottom:20px;font-size:22px}
+  .bundle-list{min-height:200px;margin-bottom:20px}
+  .bundle-list-item{
+    display:flex;gap:10px;align-items:center;padding:8px 0;
+    border-bottom:1px solid var(--border);font-size:14px;
+  }
+  .bundle-list-item img{width:40px;height:40px;border-radius:8px;object-fit:cover}
+  .bundle-list-item .bli-name{flex:1}
+  .bundle-list-item .bli-rm{cursor:pointer;color:var(--accent3);font-weight:700}
+  .bundle-total{
+    display:flex;justify-content:space-between;font-size:18px;font-weight:800;
+    padding-top:16px;border-top:2px solid var(--border);margin-bottom:16px;
+  }
+  .bundle-discount{color:var(--accent2);font-size:13px;margin-bottom:16px}
+  .drop-zone{
+    border:2px dashed var(--border);border-radius:16px;padding:30px;
+    text-align:center;color:var(--muted);font-size:13px;margin-bottom:16px;
+    transition:all .3s;
+  }
+  .drop-zone.drag-over{border-color:var(--accent);background:rgba(177,75,255,.05);color:var(--fg)}
+
+  /* CART DRAWER */
+  .cart-drawer{
+    position:fixed;top:0;right:-450px;width:420px;max-width:100vw;height:100vh;
+    background:var(--bg2);border-left:1px solid var(--border);z-index:200;
+    transition:right .4s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;
+  }
+  .cart-drawer.open{right:0}
+  .cart-head{padding:24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+  .cart-head h3{font-size:22px}
+  .cart-close{background:none;border:none;color:var(--fg);font-size:24px;cursor:pointer}
+  .cart-items{flex:1;overflow-y:auto;padding:20px 24px}
+  .cart-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+  .cart-item img{width:60px;height:60px;border-radius:10px;object-fit:cover}
+  .cart-item-info{flex:1}
+  .cart-item-info h4{font-size:14px;margin-bottom:4px}
+  .cart-item-info .ci-price{color:var(--accent2);font-weight:700;font-size:14px}
+  .cart-item-qty{display:flex;gap:6px;align-items:center;margin-top:6px}
+  .cart-item-qty button{background:var(--card);border:1px solid var(--border);color:var(--fg);width:24px;height:24px;border-radius:6px;cursor:pointer}
+  .cart-foot{padding:24px;border-top:1px solid var(--border)}
+  .cart-total{display:flex;justify-content:space-between;margin-bottom:16px;font-size:18px;font-weight:800}
+  .checkout-btn{width:100%;padding:16px;border-radius:30px;border:none;cursor:pointer;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;font-size:15px}
+  .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:150;opacity:0;pointer-events:none;transition:opacity .3s}
+  .cart-overlay.open{opacity:1;pointer-events:all}
+
+  /* TOAST */
+  .toast{
+    position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);
+    background:var(--bg2);border:1px solid var(--accent2);color:var(--fg);
+    padding:14px 24px;border-radius:30px;font-size:14px;z-index:400;
+    transition:transform .4s;box-shadow:0 10px 40px rgba(0,229,255,.2);
+  }
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
+  /* FLY ITEM */
+  .fly-item{
+    position:fixed;width:60px;height:60px;border-radius:50%;z-index:300;
+    pointer-events:none;background:var(--accent);
+    box-shadow:0 0 30px var(--accent);
+  }
+
+  /* FOOTER */
+  footer{padding:60px 40px 30px;border-top:1px solid var(--border);text-align:center}
+  .footer-bottom{color:var(--muted);font-size:13px;margin-top:30px}
+
+  .reveal{opacity:0;transform:translateY(40px);transition:all .8s}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  @media(max-width:768px){
+    nav{padding:14px 20px}
+    .nav-links a:not(.cart-btn):not(.request-btn){display:none}
+    section{padding:60px 20px}
+    .builder-wrap{grid-template-columns:1fr}
+    .bundle-summary{position:static}
+    .modal{grid-template-columns:1fr}
+    .request-grid{grid-template-columns:1fr}
+    .source-banner{padding:40px 20px}
+  }
+</style>
+</head>
+<body data-theme="dark">
+
+<nav>
+  <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">LUMEN</div>
+  <div class="nav-links">
+    <a href="#shop">Shop</a>
+    <a href="#request">Request</a>
+    <a href="#bundle">Bundle</a>
+    <div class="theme-switch">
+      <div class="theme-dot" style="background:#0a0a0f" data-theme="dark" title="Dark"></div>
+      <div class="theme-dot" style="background:#f6f4ef" data-theme="light" title="Light"></div>
+      <div class="theme-dot" style="background:linear-gradient(135deg,#ff006e,#00ff9d)" data-theme="neon" title="Neon"></div>
+    </div>
+    <button class="request-btn" onclick="document.getElementById('request').scrollIntoView({behavior:'smooth'})">✨ Request Anything</button>
+    <button class="cart-btn" onclick="toggleCart()">
+      🛒 <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="orb" id="orb"></div>
+  <div class="orb2"></div>
+  <div class="hero-content">
+    <div class="hero-pill"><span class="dot"></span> Unlimited catalog · Sourced globally</div>
+    <h1>If you can <span>dream it</span>,<br>we can source it.</h1>
+    <p>The products below are just a taste. Our catalog is <strong>literally unlimited</strong> — if you can imagine it, describe it, or show us a picture of it, we'll find it and ship it to your door.</p>
+    <div class="hero-cta">
+      <a href="#request" class="btn btn-primary">🎯 Request a Product</a>
+      <a href="#shop" class="btn btn-ghost">Browse Featured</a>
+    </div>
+  </div>
+</section>
+
+<!-- SOURCE ANYTHING BANNER -->
+<div class="source-banner">
+  <h2>Not limited to what's on screen. <span>Millions of products. One request away.</span></h2>
+  <p>From vintage Japanese cameras to custom sneakers, from obscure gadgets to handmade crafts — if it exists anywhere on Earth, we can get it to you.</p>
+  <div class="source-examples">
+    <div class="source-chip" onclick="prefillRequest('A specific TikTok product')">📱 TikTok finds</div>
+    <div class="source-chip" onclick="prefillRequest('Vintage item from Japan')">🗾 Vintage from Japan</div>
+    <div class="source-chip" onclick="prefillRequest('Custom branded merchandise')">🎨 Custom merch</div>
+    <div class="source-chip" onclick="prefillRequest('Rare collectible')">💎 Rare collectibles</div>
+    <div class="source-chip" onclick="prefillRequest('Handmade artisan product')">🏺 Handmade artisan</div>
+    <div class="source-chip" onclick="prefillRequest('Bulk order for my business')">📦 Bulk orders</div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section id="shop">
+  <div class="section-head reveal">
+    <div class="eyebrow">Featured Collection</div>
+    <h2>A taste of what's possible</h2>
+    <p>Handpicked from our global network. Can't see what you want? <a href="#request" style="color:var(--accent2)">Request it →</a></p>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<!-- REQUEST SECTION -->
+<section class="request-section" id="request">
+  <div class="request-wrap">
+    <div class="request-grid">
+      <div class="request-info reveal">
+        <div class="eyebrow" style="color:var(--accent);font-size:13px;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px">The LUMEN Promise</div>
+        <h2>Can't find it? <span>We'll find it.</span></h2>
+        <p>Our featured products are just the beginning. We have access to millions of items from suppliers across 40+ countries. If you've seen it on social media, in a store, or in a dream — tell us. We'll source it, price-match where possible, and deliver it to your door.</p>
+        <div class="request-stats">
+          <div class="request-stat"><div class="num">10M+</div><div class="lbl">Products accessible</div></div>
+          <div class="request-stat"><div class="num">40+</div><div class="lbl">Countries sourced</div></div>
+          <div class="request-stat"><div class="num">48h</div><div class="lbl">Avg. response time</div></div>
+        </div>
+        <p style="font-size:14px">🔒 No commitment. We'll reply with pricing and availability before you pay anything.</p>
+      </div>
+      <div class="request-form reveal">
+        <h3>✨ Request a product</h3>
+        <form id="requestForm" onsubmit="submitRequest(event)">
+          <div class="form-group">
+            <label>What are you looking for?</label>
+            <input type="text" id="reqProduct" placeholder="e.g. Vintage Polaroid SX-70" required>
+          </div>
+          <div class="form-group">
+            <label>Describe it (the more detail, the better)</label>
+            <textarea id="reqDesc" placeholder="Color, size, brand, where you saw it, any specifics..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Target price (optional)</label>
+            <input type="text" id="reqPrice" placeholder="e.g. under $100">
+          </div>
+          <div class="form-group">
+            <label>Reference image (optional)</label>
+            <label class="file-upload" for="reqImage">
+              <div>📎 Click to upload an image</div>
+              <input type="file" id="reqImage" accept="image/*" multiple onchange="previewImages(event)">
+              <div class="preview" id="imgPreview"></div>
+            </label>
+          </div>
+          <div class="form-group">
+            <label>Your email (we'll reply here)</label>
+            <input type="email" id="reqEmail" placeholder="you@email.com" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Submit Request</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUNDLE BUILDER -->
+<section class="builder" id="bundle">
+  <div class="section-head reveal">
+    <div class="eyebrow">Drag & Drop</div>
+    <h2>Build your bundle</h2>
+    <p>Drag items into your bundle. 3+ items = 15% off automatically.</p>
+  </div>
+  <div class="builder-wrap reveal">
+    <div>
+      <div class="bundle-pool" id="bundlePool"></div>
+    </div>
+    <div class="bundle-summary">
+      <h3>Your Bundle</h3>
+      <div class="drop-zone" id="dropZone">Drop items here ✨</div>
+      <div class="bundle-list" id="bundleList"></div>
+      <div class="bundle-discount" id="bundleDiscount" style="display:none">🎉 15% bundle discount applied!</div>
+      <div class="bundle-total">
+        <span>Total</span>
+        <span id="bundleTotal">$0.00</span>
+      </div>
+      <button class="checkout-btn" onclick="checkoutBundle()">Checkout Bundle</button>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="productModal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-gallery">
+      <div class="modal-main-img"><img id="modalMainImg" src="" alt=""></div>
+      <div class="modal-thumbs" id="modalThumbs"></div>
+    </div>
+    <div class="modal-details">
+      <div class="modal-cat" id="modalCat"></div>
+      <h2 id="modalName"></h2>
+      <div class="modal-rating" id="modalRating"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-options" id="modalOptions"></div>
+      <div class="qty-row">
+        <label style="font-size:13px;font-weight:600">Quantity</label>
+        <div class="qty-control">
+          <button onclick="changeModalQty(-1)">−</button>
+          <span id="modalQty">1</span>
+          <button onclick="changeModalQty(1)">+</button>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="addModalToCart()">Add to Cart</button>
+        <button class="btn btn-ghost" onclick="buyNowModal()">Buy Now</button>
+      </div>
+      <div class="modal-request">
+        <p>Want a different color, size, or variation?</p>
+        <a onclick="requestVariation()">Request a custom version →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-head">
+    <h3>Your Cart</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <p style="color:var(--muted);text-align:center;padding:40px 0">Your cart is empty ✨</p>
+  </div>
+  <div class="cart-foot">
+    <div class="cart-total"><span>Total</span><span id="cartTotal">$0.00</span></div>
+    <button class="checkout-btn" onclick="stripeCheckout()">Checkout with Stripe</button>
+    <p style="color:var(--muted);font-size:11px;text-align:center;margin-top:10px">🔒 Secure payment · Powered by Stripe</p>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div class="footer-bottom">
+    © 2026 LUMEN — If you can dream it, we can source it. · <a href="#request" style="color:var(--accent2)">Request anything</a>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   CONFIG — Replace these with your real values
+   ============================================================ */
+const CONFIG = {
+  STRIPE_PUBLISHABLE_KEY: 'pk_test_YOUR_KEY_HERE',   // from Stripe dashboard
+  BACKEND_URL: 'https://your-backend.com',            // your Node/Express server
+  SUCCESS_URL: window.location.origin + '/success.html',
+  CANCEL_URL: window.location.origin + '/cancel.html',
+  REQUEST_WEBHOOK: 'https://your-backend.com/api/requests', // receives request form submissions
+};
+
+// Initialize Stripe (only if key is set)
+let stripe = null;
+try {
+  if (CONFIG.STRIPE_PUBLISHABLE_KEY && !CONFIG.STRIPE_PUBLISHABLE_KEY.includes('YOUR_KEY')) {
+    stripe = Stripe(CONFIG.STRIPE_PUBLISHABLE_KEY);
+  }
+} catch(e) { console.warn('Stripe not configured yet'); }
+
+/* ============================================================
+   PRODUCT DATA (expanded with gallery, description, reviews)
+   ============================================================ */
+const products = [
+  {
+    id:1, name:"Nebula Lamp", cat:"Ambient", price:49, tag:"New",
+    desc:"A mesmerizing projection lamp that fills your room with drifting galaxies. USB-powered, 3 color modes, perfect for bedrooms and meditation spaces.",
+    rating:4.8, reviews:342,
+    options:{Color:['Aurora','Nebula Pink','Deep Space']},
+    gallery:[
+      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=800",
+      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800",
+      "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800",
+      "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=800"
+    ],
+    mood:"calm", aesthetic:"cozy"
+  },
+  {
+    id:2, name:"Brass Compass", cat:"Adventure", price:32, tag:"Hot",
+    desc:"Handcrafted solid brass compass with leather case. Fully functional, beautifully aged. A timeless gift for travelers and dreamers.",
+    rating:4.9, reviews:189,
+    options:{},
+    gallery:[
+      "https://images.unsplash.com/photo-1528262946336-09eca4296b1d?w=800",
+      "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800",
+      "https://images.unsplash.com/photo-1472396961694-9b0387a1722f?w=800",
+      "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800"
+    ],
+    mood:"adventurous", aesthetic:"retro"
+  },
+  {
+    id:3, name:"Mechanical Keyboard", cat:"Tech", price:129, tag:"Limited",
+    desc:"Hot-swappable mechanical keyboard with RGB backlighting, PBT keycaps, and a satisfying tactile feel. USB-C, compatible with Mac and Windows.",
+    rating:4.7, reviews:521,
+    options:{Switch:['Red','Blue','Brown'],Layout:['US','UK','ISO']},
+    gallery:[
+      "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800",
+      "https://images.unsplash.com/photo-1595225476474-87563907a212?w=800",
+      "https://images.unsplash.com/photo-1541140532154-b024d705b90a?w=800",
+      "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800"
+    ],
+    mood:"focused", aesthetic:"tech"
+  },
+  {
+    id:4, name:"Ceramic Pour-Over", cat:"Kitchen", price:38, tag:null,
+    desc:"Minimalist ceramic pour-over dripper. Hand-thrown, food-safe glaze. Brews a cleaner, brighter cup than paper filters.",
+    rating:4.6, reviews:98,
+    options:{Color:['Matte White','Charcoal','Sage']},
+    gallery:[
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800",
+      "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800",
+      "https://images.unsplash.com/photo-1497935586351-b67a49e014bf?w=800",
+      "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800"
+    ],
+    mood:"calm", aesthetic:"minimal"
+  },
+  {
+    id:5, name:"Leather Journal", cat:"Stationery", price:24, tag:null,
+    desc:"Full-grain leather journal with 200 pages of acid-free paper. Ages beautifully. Refillable insert.",
+    rating:4.9, reviews:412,
+    options:{Size:['A5','A6','Pocket']},
+    gallery:[
+      "https://images.unsplash.com/photo-1544816155-12df9643f363?w=800",
+      "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800",
+      "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800",
+      "https://images.unsplash.com/photo-1517842645767-c639042777db?w=800"
+    ],
+    mood:"creative", aesthetic:"retro"
+  },
+  {
+    id:6, name:"Wireless Earbuds", cat:"Tech", price:79, tag:"Hot",
+    desc:"Active noise cancellation, 30-hour battery life, IPX5 water resistance. Hi-Res audio certified.",
+    rating:4.5, reviews:1203,
+    options:{Color:['Midnight','Pearl','Sage']},
+    gallery:[
+      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800",
+      "https://images.unsplash.com/photo-1606220945770-b59628487b5c?w=800",
+      "https://images.unsplash.com/photo-1598331668826-20ce550d1692?w=800",
+      "https://images.unsplash.com/photo-1608042314453-ae338d80c42a?w=800"
+    ],
+    mood:"focused", aesthetic:"tech"
+  },
+  {
+    id:7, name:"Scented Candle Set", cat:"Home", price:28, tag:null,
+    desc:"Set of 3 hand-poured soy candles. Notes of cedar, vanilla, and bergamot. 40-hour burn each.",
+    rating:4.8, reviews:267,
+    options:{},
+    gallery:[
+      "https://images.unsplash.com/photo-1602874801006-e26c4c5b5e8a?w=800",
+      "https://images.unsplash.com/photo-1603006905003-be475563bc59?w=800",
+      "https://images.unsplash.com/photo-1608181831718-c9ffd8728c1b?w=800",
+      "https://images.unsplash.com/photo-1574263867128-a3d5c1b1deae?w=800"
+    ],
+    mood:"calm", aesthetic:"cozy"
+  },
+  {
+    id:8, name:"Watercolor Kit", cat:"Creative", price:45, tag:"New",
+    desc:"Professional-grade 24-color watercolor set with 3 brushes and a travel tin. Pigment-rich, lightfast.",
+    rating:4.7, reviews:156,
+    options:{},
+    gallery:[
+      "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800",
+      "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800",
+      "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800",
+      "https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=800"
+    ],
+    mood:"creative", aesthetic:"minimal"
+  },
+  {
+    id:9, name:"Smart Watch Band", cat:"Tech", price:19, tag:null,
+    desc:"Premium fluoroelastomer band. Soft, sweat-resistant, hypoallergenic. Fits most smartwatches.",
+    rating:4.4, reviews:892,
+    options:{Color:['Black','Navy','Rose','Olive'],Size:['38/40mm','42/44mm']},
+    gallery:[
+      "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=800",
+      "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=800",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800",
+      "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=800"
+    ],
+    mood:"focused", aesthetic:"tech"
+  },
+  {
+    id:10, name:"Hiking Backpack", cat:"Adventure", price:89, tag:"Limited",
+    desc:"40L waterproof hiking backpack with ergonomic harness. Multiple compartments, rain cover included.",
+    rating:4.8, reviews:334,
+    options:{Color:['Forest','Slate','Ember']},
+    gallery:[
+      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800",
+      "https://images.unsplash.com/photo-1622260614153-03223fb7205f?w=800",
+      "https://images.unsplash.com/photo-1581605405669-fcdf81165b66?w=800",
+      "https://images.unsplash.com/photo-1547947948-8a18f74165a2?w=800"
+    ],
+    mood:"adventurous", aesthetic:"minimal"
+  },
+  {
+    id:11, name:"Vintage Radio", cat:"Home", price:119, tag:"New",
+    desc:"Retro-styled Bluetooth radio with real FM/AM tuning. Walnut cabinet, warm analog sound.",
+    rating:4.9, reviews:201,
+    options:{},
+    gallery:[
+      "https://images.unsplash.com/photo-1564424224827-cd24b8915874?w=800",
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+      "https://images.unsplash.com/photo-1545454675-3531b5460326?w=800",
+      "https://images.unsplash.com/photo-1514513121445-b8a966051517?w=800"
+    ],
+    mood:"calm", aesthetic:"retro"
+  },
+  {
+    id:12, name:"Desk Plant", cat:"Home", price:22, tag:null,
+    desc:"Live succulent in a handmade ceramic pot. Low-maintenance, air-purifying. Each one unique.",
+    rating:4.6, reviews:178,
+    options:{Pot:['Terracotta','White','Black']},
+    gallery:[
+      "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=800",
+      "https://images.unsplash.com/photo-1459411552884-841db9b3cc65?w=800",
+      "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?w=800",
+      "https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=800"
+    ],
+    mood:"calm", aesthetic:"cozy"
+  },
+];
+
+const cart = [];
+const bundle = [];
+let currentProduct = null;
+let modalQty = 1;
+
+/* ============================================================
+   RENDER PRODUCTS
+   ============================================================ */
+function renderProducts(){
+  const grid = document.getElementById('productsGrid');
+  grid.innerHTML = products.map(p=>`
+    <div class="product reveal" data-id="${p.id}" onclick="openModal(${p.id})">
+      <div class="product-img">
+        ${p.tag?`<div class="product-tag">${p.tag}</div>`:''}
+        <img src="${p.gallery[0]}" alt="${p.name}" loading="lazy">
+      </div>
+      <div class="product-info">
+        <div class="cat">${p.cat}</div>
+        <h3>${p.name}</h3>
+        <div class="product-foot">
+          <span class="price">$${p.price}</span>
+          <button class="add-btn" onclick="event.stopPropagation();addToCart(${p.id},event)">+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  initTilt();
+  initReveal();
+}
+
+/* ============================================================
+   PRODUCT MODAL
+   ============================================================ */
+function openModal(id){
+  const p = products.find(x=>x.id===id);
+  if(!p) return;
+  currentProduct = p;
+  modalQty = 1;
+  document.getElementById('modalMainImg').src = p.gallery[0];
+  document.getElementById('modalCat').textContent = p.cat;
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalPrice').textContent = '$'+p.price;
+  document.getElementById('modalDesc').textContent = p.desc;
+  document.getElementById('modalRating').innerHTML = `⭐ ${p.rating} · ${p.reviews} reviews`;
+  document.getElementById('modalQty').textContent = 1;
+
+  // Thumbnails
+  document.getElementById('modalThumbs').innerHTML = p.gallery.map((g,i)=>`
+    <div class="modal-thumb ${i===0?'active':''}" onclick="switchImg('${g}',this)">
+      <img src="${g}" alt="">
+    </div>
+  `).join('');
+
+  // Options
+  const opts = document.getElementById('modalOptions');
+  if(Object.keys(p.options).length){
+    opts.innerHTML = Object.entries(p.options).map(([k,v])=>`
+      <div style="margin-bottom:12px">
+        <label>${k}</label>
+        <div class="option-chips">
+          ${v.map((opt,i)=>`<div class="option-chip ${i===0?'selected':''}" onclick="selectOption(this)">${opt}</div>`).join('')}
+        </div>
+      </div>
+    `).join('');
+    opts.style.display = 'block';
+  } else {
+    opts.style.display = 'none';
+  }
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function switchImg(src,el){
+  document.getElementById('modalMainImg').src = src;
+  document.querySelectorAll('.modal-thumb').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+function selectOption(el){
+  el.parentElement.querySelectorAll('.option-chip').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function changeModalQty(d){
+  modalQty = Math.max(1, modalQty + d);
+  document.getElementById('modalQty').textContent = modalQty;
+}
+function addModalToCart(){
+  for(let i=0;i<modalQty;i++) addToCart(currentProduct.id);
+  showToast(`Added ${modalQty}× ${currentProduct.name} to cart`);
+  closeModal();
+}
+function buyNowModal(){
+  for(let i=0;i<modalQty;i++) addToCart(currentProduct.id);
+  closeModal();
+  stripeCheckout();
+}
+function requestVariation(){
+  closeModal();
+  prefillRequest(`Variation of ${currentProduct.name}`);
+  document.getElementById('request').scrollIntoView({behavior:'smooth'});
+}
+
+/* ============================================================
+   3D TILT + ORB
+   ============================================================ */
+function initTilt(){
+  document.querySelectorAll('.product').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r = card.getBoundingClientRect();
+      const x = e.clientX-r.left, y = e.clientY-r.top;
+      const rx = ((y/r.height)-0.5)*-10;
+      const ry = ((x/r.width)-0.5)*10;
+      card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
+    });
+    card.addEventListener('mouseleave',()=>card.style.transform='');
+  });
+}
+document.addEventListener('mousemove',e=>{
+  const orb = document.getElementById('orb');
+  orb.style.transform = `translate(${e.clientX-300}px,${e.clientY-300}px)`;
+});
+
+/* ============================================================
+   CART
+   ============================================================ */
+function addToCart(id,e){
+  const p = products.find(x=>x.id===id);
+  const existing = cart.find(x=>x.id===id);
+  if(existing) existing.qty++;
+  else cart.push({...p,qty:1});
+  updateCart();
+  if(e) flyToCart(e);
+}
+function flyToCart(e){
+  const btn = e.target.getBoundingClientRect();
+  const cartRect = document.querySelector('.cart-btn').getBoundingClientRect();
+  const fly = document.createElement('div');
+  fly.className = 'fly-item';
+  fly.style.left = btn.left+'px';
+  fly.style.top = btn.top+'px';
+  document.body.appendChild(fly);
+  requestAnimationFrame(()=>{
+    fly.style.transition = 'all .8s cubic-bezier(.5,-0.5,.7,.2)';
+    fly.style.left = cartRect.left+'px';
+    fly.style.top = cartRect.top+'px';
+    fly.style.transform = 'scale(0.1)';
+    fly.style.opacity = '0';
+  });
+  setTimeout(()=>fly.remove(),900);
+}
+function updateCart(){
+  document.getElementById('cartCount').textContent = cart.reduce((s,i)=>s+i.qty,0);
+  const items = document.getElementById('cartItems');
+  if(cart.length===0){
+    items.innerHTML = '<p style="color:var(--muted);text-align:center;padding:40px 0">Your cart is empty ✨</p>';
+  } else {
+    items.innerHTML = cart.map(i=>`
+      <div class="cart-item">
+        <img src="${i.gallery[0]}" alt="">
+        <div class="cart-item-info">
+          <h4>${i.name}</h4>
+          <div class="ci-price">$${i.price} × ${i.qty}</div>
+          <div class="cart-item-qty">
+            <button onclick="changeQty(${i.id},-1)">−</button>
+            <span>${i.qty}</span>
+            <button onclick="changeQty(${i.id},1)">+</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+  const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  document.getElementById('cartTotal').textContent = '$'+total.toFixed(2);
+}
+function changeQty(id,d){
+  const i = cart.find(x=>x.id===id);
+  i.qty += d;
+  if(i.qty<=0) cart.splice(cart.indexOf(i),1);
+  updateCart();
+}
+function toggleCart(){
+  document.getElementById('cartDrawer').classList.toggle('open');
+  document.getElementById('cartOverlay').classList.toggle('open');
+}
+
+/* ============================================================
+   STRIPE CHECKOUT
+   ============================================================ */
+async function stripeCheckout(){
+  if(cart.length===0){ showToast('Your cart is empty'); return; }
+
+  // If Stripe isn't configured, show a helpful message
+  if(!stripe || CONFIG.BACKEND_URL.includes('your-backend')){
+    showToast('⚙️ Demo mode — configure Stripe in CONFIG to enable checkout');
+    console.log('Cart contents:', cart);
+    console.log('Total:', cart.reduce((s,i)=>s+i.price*i.qty,0));
+    return;
+  }
+
+  try {
+    const res = await fetch(CONFIG.BACKEND_URL + '/create-checkout-session', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        items: cart.map(i=>({
+          id: i.id,
+          name: i.name,
+          price: i.price,
+          qty: i.qty,
+          image: i.gallery[0]
+        }))
+      })
+    });
+    const { url } = await res.json();
+    window.location.href = url;
+  } catch(err){
+    console.error(err);
+    showToast('Checkout failed. Please try again.');
+  }
+}
+
+/* ============================================================
+   BUNDLE BUILDER
+   ============================================================ */
+function renderBundlePool(){
+  const pool = document.getElementById('bundlePool');
+  pool.innerHTML = products.slice(0,8).map(p=>`
+    <div class="bundle-item" draggable="true" data-id="${p.id}">
+      <img src="${p.gallery[0]}" alt="">
+      <div class="bi-price">$${p.price}</div>
+    </div>
+  `).join('');
+  initDrag();
+}
+function initDrag(){
+  document.querySelectorAll('.bundle-item').forEach(item=>{
+    item.addEventListener('dragstart',e=>{
+      e.dataTransfer.setData('text/plain',item.dataset.id);
+      item.style.opacity='0.4';
+    });
+    item.addEventListener('dragend',()=>item.style.opacity='1');
+    item.addEventListener('click',()=>toggleBundle(parseInt(item.dataset.id)));
+  });
+  const dz = document.getElementById('dropZone');
+  dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag-over')});
+  dz.addEventListener('dragleave',()=>dz.classList.remove('drag-over'));
+  dz.addEventListener('drop',e=>{
+    e.preventDefault();
+    dz.classList.remove('drag-over');
+    toggleBundle(parseInt(e.dataTransfer.getData('text/plain')));
+  });
+}
+function toggleBundle(id){
+  const idx = bundle.findIndex(b=>b.id===id);
+  if(idx>=0) bundle.splice(idx,1);
+  else bundle.push({...products.find(x=>x.id===id),qty:1});
+  updateBundle();
+}
+function updateBundle(){
+  document.querySelectorAll('.bundle-item').forEach(el=>{
+    el.classList.toggle('in-bundle',bundle.some(b=>b.id===parseInt(el.dataset.id)));
+  });
+  const list = document.getElementById('bundleList');
+  list.innerHTML = bundle.map(b=>`
+    <div class="bundle-list-item">
+      <img src="${b.gallery[0]}" alt="">
+      <span class="bli-name">${b.name}</span>
+      <span>$${b.price}</span>
+      <span class="bli-rm" onclick="toggleBundle(${b.id})">✕</span>
+    </div>
+  `).join('');
+  const subtotal = bundle.reduce((s,b)=>s+b.price,0);
+  const discount = bundle.length>=3;
+  const total = discount ? subtotal*0.85 : subtotal;
+  document.getElementById('bundleTotal').textContent = '$'+total.toFixed(2);
+  document.getElementById('bundleDiscount').style.display = discount?'block':'none';
+}
+function checkoutBundle(){
+  if(bundle.length===0){ showToast('Add some items first! ✨'); return; }
+  bundle.forEach(b=>addToCart(b.id));
+  bundle.length = 0;
+  updateBundle();
+  toggleCart();
+  setTimeout(stripeCheckout, 500);
+}
+
+/* ============================================================
+   REQUEST FORM
+   ============================================================ */
+function prefillRequest(text){
+  document.getElementById('reqProduct').value = text;
+  document.getElementById('request').scrollIntoView({behavior:'smooth'});
+  setTimeout(()=>document.getElementById('reqProduct').focus(), 600);
+}
+function previewImages(e){
+  const preview = document.getElementById('imgPreview');
+  preview.innerHTML = '';
+  Array.from(e.target.files).forEach(f=>{
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(f);
+    preview.appendChild(img);
+  });
+}
+async function submitRequest(e){
+  e.preventDefault();
+  const data = {
+    product: document.getElementById('reqProduct').value,
+    description: document.getElementById('reqDesc').value,
+    price: document.getElementById('reqPrice').value,
+    email: document.getElementById('reqEmail').value,
+    timestamp: new Date().toISOString()
+  };
+
+  // Send to backend (if configured)
+  if(!CONFIG.REQUEST_WEBHOOK.includes('your-backend')){
+    try {
+      await fetch(CONFIG.REQUEST_WEBHOOK, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(data)
+      });
+    } catch(err){ console.warn('Request webhook failed', err); }
+  }
+
+  showToast('✨ Request received! We\'ll email you within 48h.');
+  document.getElementById('requestForm').reset();
+  document.getElementById('imgPreview').innerHTML = '';
+  console.log('Product request submitted:', data);
+}
+
+/* ============================================================
+   THEME + REVEAL + TOAST
+   ============================================================ */
+document.querySelectorAll('.theme-dot').forEach(d=>{
+  d.onclick = ()=>document.body.dataset.theme = d.dataset.theme;
+});
+function initReveal(){
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+  },{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+}
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+renderProducts();
+renderBundlePool();
+initReveal();
+
+// ESC closes modal/cart
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){ closeModal(); if(document.getElementById('cartDrawer').classList.contains('open')) toggleCart(); }
+});
+</script>
+
+<!--
+============================================================
+BACKEND SETUP (Node/Express + Stripe)
+============================================================
+Save this as server.js and run with: node server.js
+
+const express = require('express');
+const stripe = require('stripe')('sk_test_YOUR_SECRET_KEY');
+const cors = require('cors');
+const app = express();
+app.use(cors());
+app.use(express.json({limit:'10mb'}));
+
+// Stripe Checkout
+app.post('/create-checkout-session', async (req, res) => {
+  const { items } = req.body;
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: items.map(item => ({
+      price_data: {
+        currency: 'usd',
+        product_data: {
+          name: item.name,
+          images: [item.image],
+        },
+        unit_amount: item.price * 100, // cents
+      },
+      quantity: item.qty,
+    })),
+    mode: 'payment',
+    success_url: 'https://yourdomain.com/success.html',
+    cancel_url: 'https://yourdomain.com/',
+  });
+  res.json({ url: session.url });
+});
+
+// Product requests (save to DB / send email)
+app.post('/api/requests', async (req, res) => {
+  console.log('New product request:', req.body);
+  // TODO: save to database, send email notification
+  res.json({ ok: true });
+});
+
+app.listen(3000, () => console.log('Backend on :3000'));
+============================================================
+-->
+
+</body>
+</html>
