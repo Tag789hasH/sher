@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LUMEN — If you can dream it, we can source it</title>
+<meta name="description" content="A curated dropshipping store with an unlimited catalog. Can't find what you want? Request it — we'll source it from anywhere on Earth.">
+
+<!-- Stripe.js -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<!-- External CSS -->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="dark">
+
+<nav>
+  <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">LUMEN</div>
+  <div class="nav-links">
+    <a href="#shop">Shop</a>
+    <a href="#request">Request</a>
+    <a href="#bundle">Bundle</a>
+    <div class="theme-switch">
+      <div class="theme-dot" style="background:#0a0a0f" data-theme="dark" title="Dark"></div>
+      <div class="theme-dot" style="background:#f6f4ef" data-theme="light" title="Light"></div>
+      <div class="theme-dot" style="background:linear-gradient(135deg,#ff006e,#00ff9d)" data-theme="neon" title="Neon"></div>
+    </div>
+    <button class="request-btn" onclick="document.getElementById('request').scrollIntoView({behavior:'smooth'})">✨ Request Anything</button>
+    <button class="cart-btn" onclick="toggleCart()">
+      🛒 <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="orb" id="orb"></div>
+  <div class="orb2"></div>
+  <div class="hero-content">
+    <div class="hero-pill"><span class="dot"></span> Unlimited catalog · Sourced globally · Prices in Rands</div>
+    <h1>If you can <span>dream it</span>,<br>we can source it.</h1>
+    <p>The products below are just a taste. Our catalog is <strong>literally unlimited</strong> — if you can imagine it, describe it, or show us a picture of it, we'll find it and ship it to your door.</p>
+    <div class="hero-cta">
+      <a href="#request" class="btn btn-primary">🎯 Request a Product</a>
+      <a href="#shop" class="btn btn-ghost">Browse Featured</a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>✦ Free shipping over R500</span>
+    <span>✦ 30-day returns</span>
+    <span>✦ Carbon-neutral delivery</span>
+    <span>✦ New drops every Friday</span>
+    <span>✦ Handpicked globally</span>
+    <span>✦ Secure checkout</span>
+    <span>✦ Free shipping over R500</span>
+    <span>✦ 30-day returns</span>
+    <span>✦ Carbon-neutral delivery</span>
+    <span>✦ New drops every Friday</span>
+  </div>
+</div>
+
+<!-- SOURCE ANYTHING BANNER -->
+<div class="source-banner">
+  <h2>Not limited to what's on screen. <span>Millions of products. One request away.</span></h2>
+  <p>From vintage Japanese cameras to custom sneakers, from obscure gadgets to handmade crafts — if it exists anywhere on Earth, we can get it to you.</p>
+  <div class="source-examples">
+    <div class="source-chip" onclick="prefillRequest('A specific TikTok product')">📱 TikTok finds</div>
+    <div class="source-chip" onclick="prefillRequest('Vintage item from Japan')">🗾 Vintage from Japan</div>
+    <div class="source-chip" onclick="prefillRequest('Custom branded merchandise')">🎨 Custom merch</div>
+    <div class="source-chip" onclick="prefillRequest('Rare collectible')">💎 Rare collectibles</div>
+    <div class="source-chip" onclick="prefillRequest('Handmade artisan product')">🏺 Handmade artisan</div>
+    <div class="source-chip" onclick="prefillRequest('Bulk order for my business')">📦 Bulk orders</div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section id="shop">
+  <div class="section-head reveal">
+    <div class="eyebrow">Featured Collection</div>
+    <h2>A taste of what's possible</h2>
+    <p>Handpicked from our global network. Can't see what you want? <a href="#request" style="color:var(--accent2)">Request it →</a></p>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<!-- REQUEST SECTION -->
+<section class="request-section" id="request">
+  <div class="request-wrap">
+    <div class="request-grid">
+      <div class="request-info reveal">
+        <div class="eyebrow" style="color:var(--accent);font-size:13px;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px">The LUMEN Promise</div>
+        <h2>Can't find it? <span>We'll find it.</span></h2>
+        <p>Our featured products are just the beginning. We have access to millions of items from suppliers across 40+ countries. If you've seen it on social media, in a store, or in a dream — tell us. We'll source it, price-match where possible, and deliver it to your door.</p>
+        <div class="request-stats">
+          <div class="request-stat"><div class="num">10M+</div><div class="lbl">Products accessible</div></div>
+          <div class="request-stat"><div class="num">40+</div><div class="lbl">Countries sourced</div></div>
+          <div class="request-stat"><div class="num">48h</div><div class="lbl">Avg. response time</div></div>
+        </div>
+        <p style="font-size:14px">🔒 No commitment. We'll reply with pricing and availability before you pay anything.</p>
+      </div>
+      <div class="request-form reveal">
+        <h3>✨ Request a product</h3>
+        <form id="requestForm" onsubmit="submitRequest(event)">
+          <div class="form-group">
+            <label>What are you looking for?</label>
+            <input type="text" id="reqProduct" placeholder="e.g. Vintage Polaroid SX-70" required>
+          </div>
+          <div class="form-group">
+            <label>Describe it (the more detail, the better)</label>
+            <textarea id="reqDesc" placeholder="Color, size, brand, where you saw it, any specifics..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Target price in Rands (optional)</label>
+            <input type="text" id="reqPrice" placeholder="e.g. under R500">
+          </div>
+          <div class="form-group">
+            <label>Reference image (optional)</label>
+            <label class="file-upload" for="reqImage">
+              <div>📎 Click to upload an image</div>
+              <input type="file" id="reqImage" accept="image/*" multiple onchange="previewImages(event)">
+              <div class="preview" id="imgPreview"></div>
+            </label>
+          </div>
+          <div class="form-group">
+            <label>Your email (we'll reply here)</label>
+            <input type="email" id="reqEmail" placeholder="you@email.com" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Submit Request</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUNDLE BUILDER -->
+<section class="builder" id="bundle">
+  <div class="section-head reveal">
+    <div class="eyebrow">Drag & Drop</div>
+    <h2>Build your bundle</h2>
+    <p>Drag items into your bundle. 3+ items = 15% off automatically.</p>
+  </div>
+  <div class="builder-wrap reveal">
+    <div>
+      <div class="bundle-pool" id="bundlePool"></div>
+    </div>
+    <div class="bundle-summary">
+      <h3>Your Bundle</h3>
+      <div class="drop-zone" id="dropZone">Drop items here ✨</div>
+      <div class="bundle-list" id="bundleList"></div>
+      <div class="bundle-discount" id="bundleDiscount" style="display:none">🎉 15% bundle discount applied!</div>
+      <div class="bundle-total">
+        <span>Total</span>
+        <span id="bundleTotal">R0.00</span>
+      </div>
+      <button class="checkout-btn" onclick="checkoutBundle()">Checkout Bundle</button>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="productModal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-gallery">
+      <div class="modal-main-img"><img id="modalMainImg" src="" alt=""></div>
+      <div class="modal-thumbs" id="modalThumbs"></div>
+    </div>
+    <div class="modal-details">
+      <div class="modal-cat" id="modalCat"></div>
+      <h2 id="modalName"></h2>
+      <div class="modal-rating" id="modalRating"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-options" id="modalOptions"></div>
+      <div class="qty-row">
+        <label style="font-size:13px;font-weight:600">Quantity</label>
+        <div class="qty-control">
+          <button onclick="changeModalQty(-1)">−</button>
+          <span id="modalQty">1</span>
+          <button onclick="changeModalQty(1)">+</button>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="addModalToCart()">Add to Cart</button>
+        <button class="btn btn-ghost" onclick="buyNowModal()">Buy Now</button>
+      </div>
+      <div class="modal-request">
+        <p>Want a different color, size, or variation?</p>
+        <a onclick="requestVariation()">Request a custom version →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-head">
+    <h3>Your Cart</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <p style="color:var(--muted);text-align:center;padding:40px 0">Your cart is empty ✨</p>
+  </div>
+  <div class="cart-foot">
+    <div class="cart-total"><span>Total</span><span id="cartTotal">R0.00</span></div>
+    <button class="checkout-btn" onclick="stripeCheckout()">Checkout with Stripe</button>
+    <p style="color:var(--muted);font-size:11px;text-align:center;margin-top:10px">🔒 Secure payment · Powered by Stripe</p>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div class="footer-bottom">
+    © 2026 LUMEN — If you can dream it, we can source it. · All prices in South African Rands · <a href="#request" style="color:var(--accent2)">Request anything</a>
+  </div>
+</footer>
+
+<!-- External JavaScript -->
+<script src="script.js"></script>
+
+</body>
+</html>
